@@ -79,12 +79,10 @@ public class SqlUserRepository implements UserRepository {
             session.beginTransaction();
             User userToChange = session.get(User.class, id);
 
-            userToChange.setUserName(user.getUserName());
-            userToChange.setUserEmail(user.getUserEmail());
-            userToChange.setUserPassword(user.getUserPassword());
-           // userToChange.setUserRating(user.getUserRating());
-            userToChange.setUserType(user.getUserType());
-            //userToChange.setUserRating(user.getUserRating());
+            userToChange.setName(user.getName());
+            userToChange.setEmail(user.getEmail());
+            userToChange.setPassword(user.getPassword());
+            //userToChange.setType(user.getType());
 
             session.getTransaction().commit();
 

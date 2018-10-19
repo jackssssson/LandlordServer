@@ -1,5 +1,7 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -12,14 +14,16 @@ public class Transactions {
     @Column(name = "transactionID")
     private int id;
 
-    @Column(name = "bankAccountID")
-    private int bankAccountId;
-
     @Column(name = "amount")
     private float amount;
 
     @Column(name = "time_stamp")
     private Date timestamp;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "bankAccountID", nullable = false)
+    @JsonIgnore
+    private BankAccount bank_account;
 
     public int getId() {
         return id;
@@ -27,14 +31,6 @@ public class Transactions {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getBankAccountId() {
-        return bankAccountId;
-    }
-
-    public void setBankAccountId(int bankAccountId) {
-        this.bankAccountId = bankAccountId;
     }
 
     public float getAmount() {
@@ -51,5 +47,13 @@ public class Transactions {
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public BankAccount getBank_account() {
+        return bank_account;
+    }
+
+    public void setBank_account(BankAccount bank_account) {
+        this.bank_account = bank_account;
     }
 }

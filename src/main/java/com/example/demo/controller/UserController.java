@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.models.User;
-import com.example.demo.models.UserRating;
 import com.example.demo.servieces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

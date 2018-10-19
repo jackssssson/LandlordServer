@@ -1,6 +1,6 @@
 package com.example.demo.models;
 
-import com.mysql.jdbc.Blob;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -13,14 +13,19 @@ public class MessageContent {
     @Column(name = "contentID")
     private int id;
 
-    @Column(name = "contentTypeID")
-    private int contentTypeId;
-
     @Column(name = "image")
-    private Blob image;
+    private byte[] image;
 
     @Column(name = "textMessage")
     private String textMessage;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "contentTypeID", nullable = false)
+    @JsonIgnore
+    private ContentType content_types;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "message_content")
+    private Messages messages;
 
     public int getId() {
         return id;
@@ -30,27 +35,35 @@ public class MessageContent {
         this.id = id;
     }
 
-    public int getContentTypeId() {
-        return contentTypeId;
-    }
-
-    public void setContentTypeId(int contentTypeId) {
-        this.contentTypeId = contentTypeId;
-    }
-
-    public Blob getImage() {
-        return image;
-    }
-
-    public void setImage(Blob image) {
-        this.image = image;
-    }
-
     public String getTextMessage() {
         return textMessage;
     }
 
     public void setTextMessage(String textMessage) {
         this.textMessage = textMessage;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public ContentType getContent_types() {
+        return content_types;
+    }
+
+    public void setContent_types(ContentType content_types) {
+        this.content_types = content_types;
+    }
+
+    public Messages getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Messages messages) {
+        this.messages = messages;
     }
 }

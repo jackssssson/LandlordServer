@@ -1,8 +1,9 @@
 package com.example.demo.models;
 
-import org.hibernate.annotations.Formula;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
@@ -20,14 +21,28 @@ public class User {
     @Column(name = "userPassword")
     private String password;
 
-    @Column(name = "userType")
-    private String type;
+//    @Column(name = "userTypeID")
+//    private String userTypeId;
 
     @Column(name = "userEmail")
     private String email;
 
-    @Formula("(select avg(u.userRating) from userratings u where u.userID=userID)")
-    private double rating;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "users")
+    private Set<UserRating> user_ratings;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "userTypeID", nullable = false)
+    @JsonIgnore
+    private UserType user_types;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "estateID", nullable = false)
+    @JsonIgnore
+    private Estates estates;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bankAccountID")
+    private BankAccount bank_account;
 
     public int getId() {
         return id;
@@ -53,14 +68,6 @@ public class User {
         this.password = password;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -69,12 +76,38 @@ public class User {
         this.email = email;
     }
 
-    public double getRating() {
-        return rating;
+
+    public Set<UserRating> getUser_ratings() {
+        return user_ratings;
     }
 
-    public void setRating(double rating) {
-        this.rating = rating;
+    public void setUser_ratings(Set<UserRating> user_ratings) {
+        this.user_ratings = user_ratings;
+    }
+
+    public UserType getUser_types() {
+        return user_types;
+    }
+
+    public void setUser_types(UserType user_types) {
+        this.user_types = user_types;
+    }
+
+    public Estates getEstates() {
+        return estates;
+    }
+
+    public void setEstates(Estates estates) {
+        this.estates = estates;
+    }
+
+
+    public BankAccount getBank_account() {
+        return bank_account;
+    }
+
+    public void setBank_account(BankAccount bank_account) {
+        this.bank_account = bank_account;
     }
 }
 

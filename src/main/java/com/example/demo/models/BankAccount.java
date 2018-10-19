@@ -1,6 +1,7 @@
 package com.example.demo.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "bank_account")
@@ -11,8 +12,17 @@ public class BankAccount {
     @Column(name = "bankAccountID")
     private int id;
 
-    @Column(name = "ballance")
-    private float ballance;
+    @Column(name = "balance")
+    private float balance;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "bank_account")
+    private List<Transactions> transactions;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "bank_account")
+    private User users;
+
+    public BankAccount() {
+    }
 
     public int getId() {
         return id;
@@ -22,11 +32,27 @@ public class BankAccount {
         this.id = id;
     }
 
-    public float getBallance() {
-        return ballance;
+    public float getBalance() {
+        return balance;
     }
 
-    public void setBallance(float ballance) {
-        this.ballance = ballance;
+    public void setBalance(float balance) {
+        this.balance = balance;
+    }
+
+    public List<Transactions> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transactions> transactions) {
+        this.transactions = transactions;
+    }
+
+    public User getUsers() {
+        return users;
+    }
+
+    public void setUsers(User users) {
+        this.users = users;
     }
 }

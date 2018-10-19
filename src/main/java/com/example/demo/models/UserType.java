@@ -1,6 +1,9 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user_types")
@@ -13,6 +16,10 @@ public class UserType {
 
     @Column(name = "userType")
     private String type;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user_types")
+    @JsonIgnore
+    private List<User> users;
 
     public int getId() {
         return id;
@@ -28,5 +35,13 @@ public class UserType {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

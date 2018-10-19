@@ -32,6 +32,9 @@ public class Address {
     @Column(name = "entrance")
     private char entrance;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "addresses")
+    private Estates estates;
+
     public int getId() {
         return id;
     }
@@ -94,5 +97,13 @@ public class Address {
 
     public void setEntrance(char entrance) {
         this.entrance = entrance;
+    }
+
+    public Estates getEstates() {
+        return estates;
+    }
+
+    public void setEstates(Estates estates) {
+        this.estates = estates;
     }
 }
