@@ -25,7 +25,7 @@
         </property>
 
         <!--<mapping class="com.example.demo.models.User"/>-->
-        <mapping class="com.example.demo.models.UserRating"/>
+        <!--<mapping class="com.example.demo.models.UserRating"/>-->
 
     </session-factory>
 </hibernate-configuration>

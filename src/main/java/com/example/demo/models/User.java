@@ -1,11 +1,9 @@
 package com.example.demo.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Entity
 @Table(name = "users")
@@ -14,88 +12,69 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userID")
-    private int userId;
+    private int id;
 
     @Column(name = "userName")
-    private String userName;
+    private String name;
 
     @Column(name = "userPassword")
-    private String userPassword;
+    private String password;
 
     @Column(name = "userType")
-    private String userType;
+    private String type;
 
     @Column(name = "userEmail")
-    private String userEmail;
+    private String email;
 
-//    @JsonIgnore
-//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "users")
-//    private List<UserRating> userRatings;
-//
-//    public List<UserRating> getUserRatings() {
-//        return userRatings;
-//    }
-//
-//    public void setUserRatings(List<UserRating> userRatings) {
-//        this.userRatings = userRatings;
-//    }
     @Formula("(select avg(u.userRating) from userratings u where u.userID=userID)")
-    private double userRating;
+    private double rating;
 
-    public double getUserRating() {
-        return userRating;
+    public int getId() {
+        return id;
     }
 
-    public void setUserRating(double userRating) {
-        this.userRating = userRating;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getName() {
+        return name;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getUserPassword() {
-        return userPassword;
+    public String getType() {
+        return type;
     }
 
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getUserType() {
-        return userType;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public double getRating() {
+        return rating;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setRating(double rating) {
+        this.rating = rating;
     }
-
-//    public List<UserRating> getUserRatings() {
-//        return userRatings;
-//    }
-//
-//    public void setUserRatings(List<UserRating> userRatings) {
-//        this.userRatings = userRatings;
-//    }
 }
 

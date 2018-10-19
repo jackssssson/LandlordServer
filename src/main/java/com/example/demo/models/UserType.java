@@ -3,17 +3,16 @@ package com.example.demo.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user_ratings")
-public class UserRating {
+@Table(name = "user_types")
+public class UserType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userID")
+    @Column(name = "userTypeID")
     private int id;
 
-    @Column(name = "userRating")
-    private int rating;
-
+    @Column(name = "userType")
+    private String type;
 
     public int getId() {
         return id;
@@ -23,11 +22,11 @@ public class UserRating {
         this.id = id;
     }
 
-    public int getRating() {
-        return rating;
+    public String getType() {
+        return type;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setType(String type) {
+        this.type = type;
     }
 }
