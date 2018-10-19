@@ -1,5 +1,8 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Formula;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +28,27 @@ public class User {
     @Column(name = "userEmail")
     private String userEmail;
 
-//    @OneToMany(mappedBy = "users")
+//    @JsonIgnore
+//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "users")
 //    private List<UserRating> userRatings;
+//
+//    public List<UserRating> getUserRatings() {
+//        return userRatings;
+//    }
+//
+//    public void setUserRatings(List<UserRating> userRatings) {
+//        this.userRatings = userRatings;
+//    }
+    @Formula("(select avg(u.userRating) from userratings u where u.userID=userID)")
+    private double userRating;
+
+    public double getUserRating() {
+        return userRating;
+    }
+
+    public void setUserRating(double userRating) {
+        this.userRating = userRating;
+    }
 
     public int getUserId() {
         return userId;
