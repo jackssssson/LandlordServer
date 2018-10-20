@@ -51,6 +51,21 @@ public class User {
     @JsonIgnore
     private Set<Messages> senderMessage;
 
+    public User(String name, String password, String email, Set<UserRating> user_ratings, UserType user_types, Estates estates, BankAccount bank_account, Set<Messages> recipientMessage, Set<Messages> senderMessage) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.user_ratings = user_ratings;
+        this.user_types = user_types;
+        this.estates = estates;
+        this.bank_account = bank_account;
+        this.recipientMessage = recipientMessage;
+        this.senderMessage = senderMessage;
+    }
+
+    public User() {
+    }
+
     public int getId() {
         return id;
     }

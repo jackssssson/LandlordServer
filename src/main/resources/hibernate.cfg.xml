@@ -13,7 +13,7 @@
         </property>
 
         <property name = "hibernate.connection.url">
-            jdbc:mysql://95.111.19.222:2468/landlord_communication
+            jdbc:mysql://95.111.19.222:2468/test
         </property>
 
         <property name = "hibernate.connection.username">
@@ -23,9 +23,6 @@
         <property name = "hibernate.connection.password">
             tunis12
         </property>
-
-        <!--<mapping class="com.example.demo.models.User"/>-->
-        <!--<mapping class="com.example.demo.models.UserRating"/>-->
 
     </session-factory>
 </hibernate-configuration>

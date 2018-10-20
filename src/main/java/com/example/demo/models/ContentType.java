@@ -18,6 +18,14 @@ public class ContentType {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "content_types")
     private List<MessageContent> message_content;
 
+    public ContentType(String contentType, List<MessageContent> message_content) {
+        this.contentType = contentType;
+        this.message_content = message_content;
+    }
+
+    public ContentType() {
+    }
+
     public int getId() {
         return id;
     }

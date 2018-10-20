@@ -32,6 +32,16 @@ public class Messages {
     @Column(name = "time_stamp")
     private Date timeStamp;
 
+    public Messages(MessageContent message_content, User sender, User recipient, Date timeStamp) {
+        this.message_content = message_content;
+        this.sender = sender;
+        this.recipient = recipient;
+        this.timeStamp = timeStamp;
+    }
+
+    public Messages() {
+    }
+
     public int getId() {
         return id;
     }

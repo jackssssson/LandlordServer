@@ -27,6 +27,16 @@ public class MessageContent {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "message_content")
     private Messages messages;
 
+    public MessageContent(byte[] image, String textMessage, ContentType content_types, Messages messages) {
+        this.image = image;
+        this.textMessage = textMessage;
+        this.content_types = content_types;
+        this.messages = messages;
+    }
+
+    public MessageContent() {
+    }
+
     public int getId() {
         return id;
     }

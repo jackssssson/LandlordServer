@@ -22,6 +22,11 @@ public class UserRating {
     @JsonIgnore
     private User users;
 
+    public UserRating(int rating, User users) {
+        this.rating = rating;
+        this.users = users;
+    }
+
     public int getId() {
         return id;
     }

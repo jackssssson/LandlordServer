@@ -11,7 +11,7 @@ public class Address {
     @Column(name = "addressID")
     private int id;
 
-    @Column(name = "country")
+    @Column(name = "country", nullable = false)
     private String country;
 
     @Column(name = "city")
@@ -34,6 +34,21 @@ public class Address {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "addresses")
     private Estates estates;
+
+    public Address(String country, String city, String street, int streetNumber, int floor, int flat, char entrance, Estates estates) {
+        this.country = country;
+        this.city = city;
+        this.street = street;
+        this.streetNumber = streetNumber;
+        this.floor = floor;
+        this.flat = flat;
+        this.entrance = entrance;
+        this.estates = estates;
+    }
+
+    public Address() {
+
+    }
 
     public int getId() {
         return id;

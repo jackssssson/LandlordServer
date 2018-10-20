@@ -25,6 +25,14 @@ public class Estates {
     @JoinColumn(name = "addressID")
     private Address addresses;
 
+    public Estates(float price, Set<User> users, Address addresses) {
+        this.price = price;
+        this.users = users;
+        this.addresses = addresses;
+    }
+
+    public Estates() {
+    }
 
     public int getId() {
         return id;

@@ -21,6 +21,14 @@ public class UserType {
     @JsonIgnore
     private List<User> users;
 
+    public UserType(String type, List<User> users) {
+        this.type = type;
+        this.users = users;
+    }
+
+    public UserType() {
+    }
+
     public int getId() {
         return id;
     }

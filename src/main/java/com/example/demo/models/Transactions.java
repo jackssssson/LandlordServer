@@ -25,6 +25,15 @@ public class Transactions {
     @JsonIgnore
     private BankAccount bank_account;
 
+    public Transactions(float amount, Date timestamp, BankAccount bank_account) {
+        this.amount = amount;
+        this.timestamp = timestamp;
+        this.bank_account = bank_account;
+    }
+
+    public Transactions() {
+    }
+
     public int getId() {
         return id;
     }

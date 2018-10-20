@@ -24,6 +24,12 @@ public class BankAccount {
     public BankAccount() {
     }
 
+    public BankAccount(float balance, List<Transactions> transactions, User users) {
+        this.balance = balance;
+        this.transactions = transactions;
+        this.users = users;
+    }
+
     public int getId() {
         return id;
     }
