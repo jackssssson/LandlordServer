@@ -1,5 +1,7 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -9,12 +11,23 @@ public class Messages {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "messageID")
+    @Column()
     private int id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "contentID")
+    @JsonIgnore
     private MessageContent message_content;
+
+    @ManyToOne
+    @JoinColumn(name = "sender_userID")
+    @JsonIgnore
+    private User sender;
+
+    @ManyToOne
+    @JoinColumn(name = "recipient_userID")
+    @JsonIgnore
+    private User recipient;
 
     @Column(name = "time_stamp")
     private Date timeStamp;
@@ -41,5 +54,21 @@ public class Messages {
 
     public void setMessage_content(MessageContent message_content) {
         this.message_content = message_content;
+    }
+
+    public User getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(User recipient) {
+        this.recipient = recipient;
+    }
+
+    public User getSender() {
+        return sender;
+    }
+
+    public void setSender(User sender) {
+        this.sender = sender;
     }
 }

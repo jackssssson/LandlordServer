@@ -14,9 +14,6 @@ public class Estates {
     @Column(name = "estateID")
     private int id;
 
-//    @Column(name = "addressID")
-//    private int addressId;
-
     @Column(name = "estatePrice")
     private float price;
 

@@ -18,7 +18,7 @@ public class BankAccount {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "bank_account")
     private List<Transactions> transactions;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "bank_account")
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "bank_account")
     private User users;
 
     public BankAccount() {

@@ -21,13 +21,11 @@ public class User {
     @Column(name = "userPassword")
     private String password;
 
-//    @Column(name = "userTypeID")
-//    private String userTypeId;
-
     @Column(name = "userEmail")
     private String email;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "users")
+    @JsonIgnore
     private Set<UserRating> user_ratings;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -40,9 +38,18 @@ public class User {
     @JsonIgnore
     private Estates estates;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bankAccountID")
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "bankAccountID", nullable = false)
+    @JsonIgnore
     private BankAccount bank_account;
+
+    @OneToMany(mappedBy = "recipient", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Messages> recipientMessage;
+
+    @OneToMany(mappedBy = "sender", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Messages> senderMessage;
 
     public int getId() {
         return id;
@@ -108,6 +115,23 @@ public class User {
 
     public void setBank_account(BankAccount bank_account) {
         this.bank_account = bank_account;
+    }
+
+
+    public Set<Messages> getRecipientMessage() {
+        return recipientMessage;
+    }
+
+    public void setRecipientMessage(Set<Messages> recipientMessage) {
+        this.recipientMessage = recipientMessage;
+    }
+
+    public Set<Messages> getSenderMessage() {
+        return senderMessage;
+    }
+
+    public void setSenderMessage(Set<Messages> senderMessage) {
+        this.senderMessage = senderMessage;
     }
 }
 
