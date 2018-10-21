@@ -92,7 +92,7 @@ public class EstatesRepositoryImpl implements EstatesRepository{
 
         ) {
             session.beginTransaction();
-            result = session.createQuery("from Estates where id in(from User where name =:userNameStr)", Estates.class).setParameter("userNameStr", name).getSingleResult();
+            result = session.createQuery("from Estates where id in(select estates from User where name = :userNameStr)", Estates.class).setParameter("userNameStr", name).getSingleResult();
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
