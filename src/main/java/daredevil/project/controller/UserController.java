@@ -5,8 +5,6 @@ import daredevil.project.servieces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -27,18 +25,13 @@ public class UserController {
         service.createUser(user);
     }
 
-    @GetMapping("/getAllUsers")
-    public List<User> getUser() {
-        return service.getAllUsers();
-    }
-
     @PutMapping("/updateUser/{id}")
     public void updateUser(@PathVariable int id, @RequestBody User user) {
-        service.update(id, user);
+        service.updateUser(id, user);
     }
 
     @DeleteMapping("/deleteUser{id}")
     public void deleteUser(@PathVariable int id) {
-        service.delete(id);
+        service.deleteUser(id);
     }
 }
