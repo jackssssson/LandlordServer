@@ -23,22 +23,17 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return repository.getAllUsers();
-    }
-
-    @Override
     public User getUserById(int id) {
         return repository.getUserById(id);
     }
 
     @Override
-    public void update(int id, User user) {
-        repository.update(id, user);
+    public void updateUser(int id, User user) {
+        repository.updateUser(id, user);
     }
 
     @Override
-    public void delete(int id) {
-        repository.delete(id);
+    public void deleteUser(int id) {
+        repository.deleteUser(id);
     }
 }

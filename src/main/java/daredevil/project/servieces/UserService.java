@@ -2,12 +2,9 @@ package daredevil.project.servieces;
 
 import daredevil.project.models.User;
 
-import java.util.List;
-
 public interface UserService {
     void createUser(User user);
-    List<User> getAllUsers();
     User getUserById(int id);
-    void update(int id, User user);
-    void delete(int id);
+    void updateUser(int id, User user);
+    void deleteUser(int id);
 }

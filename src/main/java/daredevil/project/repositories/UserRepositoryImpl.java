@@ -3,12 +3,9 @@ package daredevil.project.repositories;
 import daredevil.project.models.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -35,25 +32,6 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        List<User> result = new ArrayList<>();
-
-        try(
-                Session session = sessionFactory.openSession()
-        ){
-            session.beginTransaction();
-            Query<User> query =  session.createQuery("from User");
-            result = query.list();
-            session.getTransaction().commit();
-
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-
-        return result;
-    }
-
-    @Override
     public User getUserById(int id) {
         User result;
 
@@ -73,7 +51,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void update(int id, User user) {
+    public void updateUser(int id, User user) {
         try(
                 Session session = sessionFactory.openSession()
         ){
@@ -83,7 +61,6 @@ public class UserRepositoryImpl implements UserRepository {
             userToChange.setName(user.getName());
             userToChange.setEmail(user.getEmail());
             userToChange.setPassword(user.getPassword());
-            //userToChange.setType(user.getType());
 
             session.getTransaction().commit();
 
@@ -94,7 +71,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void delete(int id) {
+    public void deleteUser(int id) {
 
     }
 }
