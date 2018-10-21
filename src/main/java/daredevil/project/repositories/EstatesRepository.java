@@ -7,4 +7,5 @@ public interface EstatesRepository {
     Estates getEstateById(int id);
     void updateEstate(int id, Estates estate);
     void deleteEstate(int id);
+    Estates getEstateByUserName(String name);
 }

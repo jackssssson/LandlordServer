@@ -3,7 +3,8 @@ package daredevil.project.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "addresses")
+@Table(name = "addresses",
+        uniqueConstraints=@UniqueConstraint(columnNames={"city", "street", "street_number", "flat", "entrance"}))
 public class Address {
 
     @Id

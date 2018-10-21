@@ -1,6 +1,6 @@
 package daredevil.project.models.DTO;
 
-public class LandlordDTO {
+public class LandlordModel {
     private String userName;
     private String userPassword;
     private String userEmail;
@@ -12,8 +12,9 @@ public class LandlordDTO {
     private int floor;
     private char entrance;
     private float price;
+    private String estateName;
 
-    public LandlordDTO(String userName, String userPassword, String userEmail, String city, String country, String street, int flat, int streetNumber, int floor, char entrance, float price) {
+    public LandlordModel(String userName, String userPassword, String userEmail, String city, String country, String street, int flat, int streetNumber, int floor, char entrance, float price, String estateName) {
         this.userName = userName;
         this.userPassword = userPassword;
         this.userEmail = userEmail;
@@ -25,9 +26,10 @@ public class LandlordDTO {
         this.floor=floor;
         this.entrance = entrance;
         this.price = price;
+        this.estateName=estateName;
     }
 
-    public LandlordDTO() {
+    public LandlordModel() {
     }
 
     public String getUserName() {
@@ -116,5 +118,13 @@ public class LandlordDTO {
 
     public void setFloor(int floor){
         this.floor=floor;
+    }
+
+    public String getEstateName() {
+        return estateName;
+    }
+
+    public void setEstateName(String estateName) {
+        this.estateName = estateName;
     }
 }
