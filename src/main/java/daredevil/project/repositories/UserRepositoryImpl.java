@@ -6,6 +6,10 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.jws.soap.SOAPBinding;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -35,10 +39,7 @@ public class UserRepositoryImpl implements UserRepository {
     public User getUserById(int id) {
         User result;
 
-        try (
-                Session session = sessionFactory.openSession()
-
-        ) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             result = session.get(User.class, id);
             session.getTransaction().commit();
@@ -81,5 +82,55 @@ public class UserRepositoryImpl implements UserRepository {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<User> getUsersByType(String type) {
+        List<User> result=new ArrayList<>();
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            result=session.createQuery("from User where user_types in(from UserType where type = :typeStr)", User.class)
+                    .setParameter("typeStr", type).list();
+            session.getTransaction().commit();
+            System.out.println("User deleted successfully.");
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
+    public User getUserByName(String name) {
+        User result;
+        try(Session session=sessionFactory.openSession()){
+            session.beginTransaction();
+            result=session.createQuery("from User where user_name =:userNameStr", User.class).setParameter("userNameStr", name).getSingleResult();
+            session.getTransaction().commit();
+            System.out.println("User:"+result.getName());
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return result;
+
+
+    }
+
+    @Override
+    public List<User> getUnoccupiedLandLords() {
+        List<User> result=new ArrayList<>();
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            result=session.createQuery("from User where user_types in(from UserType where type = 'landlord') and estates in(from Estates where occupied = false)", User.class).list();
+            session.getTransaction().commit();
+            System.out.println("Unoccupied LandLords.");
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return result;
     }
 }

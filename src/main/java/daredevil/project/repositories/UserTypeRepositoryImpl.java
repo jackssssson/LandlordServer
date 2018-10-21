@@ -59,7 +59,7 @@ public class UserTypeRepositoryImpl implements UserTypeRepository{
         ) {
             session.beginTransaction();
             result = session.createQuery(
-                    "from UserType where type = : nameType", UserType.class)
+                    "from UserType where type = :nameType", UserType.class)
             .setParameter("nameType", type)
             .getSingleResult();
             session.getTransaction().commit();

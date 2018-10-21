@@ -14,7 +14,7 @@ public class UserType {
     @Column(name = "user_TypeID")
     private int id;
 
-    @Column(name = "user_Type", nullable = false)
+    @Column(name = "user_Type", nullable = false, unique = true)
     private String type;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user_types")

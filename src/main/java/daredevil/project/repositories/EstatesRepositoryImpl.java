@@ -1,6 +1,7 @@
 package daredevil.project.repositories;
 
 import daredevil.project.models.Estates;
+import daredevil.project.models.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,8 @@ public class EstatesRepositoryImpl implements EstatesRepository{
             Estates estateToChange = session.get(Estates.class, id);
 
             estateToChange.setPrice(estate.getPrice());
+            estateToChange.setEstateName(estate.getEstateName());
+            estateToChange.setOccupied(estate.isOccupied());
 
             session.getTransaction().commit();
 
@@ -78,5 +81,24 @@ public class EstatesRepositoryImpl implements EstatesRepository{
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Estates getEstateByUserName(String name) {
+        Estates result;
+
+        try (
+                Session session = sessionFactory.openSession()
+
+        ) {
+            session.beginTransaction();
+            result = session.createQuery("from Estates where id in(from User where name =:userNameStr)", Estates.class).setParameter("userNameStr", name).getSingleResult();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+
+        return result;
     }
 }
