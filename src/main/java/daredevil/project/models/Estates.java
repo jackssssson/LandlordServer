@@ -3,6 +3,7 @@ package daredevil.project.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -28,6 +29,12 @@ public class Estates {
     public Estates(float price, Set<User> users, Address addresses) {
         this.price = price;
         this.users = users;
+        this.addresses = addresses;
+    }
+
+    public Estates(float price, Address addresses) {
+        this.price = price;
+        this.users = new HashSet<>();
         this.addresses = addresses;
     }
 

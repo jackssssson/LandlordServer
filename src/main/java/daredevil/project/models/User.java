@@ -3,6 +3,7 @@ package daredevil.project.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -63,8 +64,21 @@ public class User {
         this.senderMessage = senderMessage;
     }
 
+    public User(String name, String password, String email,  UserType user_types, Estates estates) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.user_ratings = new HashSet<>();
+        this.user_types = user_types;
+        this.estates = estates;
+        this.bank_account = new BankAccount(0, this);
+        this.recipientMessage = new HashSet<>();
+        this.senderMessage = new HashSet<>();
+    }
+
     public User() {
     }
+
 
     public int getId() {
         return id;

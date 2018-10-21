@@ -1,6 +1,7 @@
 package daredevil.project.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,6 +28,12 @@ public class BankAccount {
     public BankAccount(float balance, List<Transactions> transactions, User users) {
         this.balance = balance;
         this.transactions = transactions;
+        this.users = users;
+    }
+
+    public BankAccount(float balance,  User users) {
+        this.balance = balance;
+        this.transactions = new ArrayList<>();
         this.users = users;
     }
 

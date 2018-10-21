@@ -46,6 +46,16 @@ public class Address {
         this.estates = estates;
     }
 
+    public Address(String country, String city, String street, int streetNumber, int floor, int flat, char entrance) {
+        this.country = country;
+        this.city = city;
+        this.street = street;
+        this.streetNumber = streetNumber;
+        this.floor = floor;
+        this.flat = flat;
+        this.entrance = entrance;
+    }
+
     public Address() {
 
     }
