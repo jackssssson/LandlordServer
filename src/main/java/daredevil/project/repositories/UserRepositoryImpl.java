@@ -12,21 +12,21 @@ public class UserRepositoryImpl implements UserRepository {
     private SessionFactory sessionFactory;
 
     @Autowired
-    public UserRepositoryImpl(SessionFactory sessionFactory){
+    public UserRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
     @Override
     public void createUser(User user) {
-        try(
+        try (
                 Session session = sessionFactory.openSession()
-        ){
+        ) {
             session.beginTransaction();
 
             session.save(user);
             session.getTransaction().commit();
-        } catch (Exception e){
-            //System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -35,16 +35,16 @@ public class UserRepositoryImpl implements UserRepository {
     public User getUserById(int id) {
         User result;
 
-        try(
+        try (
                 Session session = sessionFactory.openSession()
 
-        ){
+        ) {
             session.beginTransaction();
             result = session.get(User.class, id);
             session.getTransaction().commit();
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
-            throw  new RuntimeException(e);
+            throw new RuntimeException(e);
         }
 
         return result;
@@ -52,9 +52,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void updateUser(int id, User user) {
-        try(
+        try (
                 Session session = sessionFactory.openSession()
-        ){
+        ) {
             session.beginTransaction();
             User userToChange = session.get(User.class, id);
 
@@ -64,7 +64,7 @@ public class UserRepositoryImpl implements UserRepository {
 
             session.getTransaction().commit();
 
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
@@ -72,6 +72,14 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void deleteUser(int id) {
-
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.delete(getUserById(id));
+            session.getTransaction().commit();
+            System.out.println("User deleted successfully.");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
