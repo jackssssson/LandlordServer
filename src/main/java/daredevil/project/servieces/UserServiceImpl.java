@@ -1,10 +1,15 @@
 package daredevil.project.servieces;
 
 
+import daredevil.project.Exceptions.CantCreateAddressException;
+import daredevil.project.Exceptions.CantCreateEstateException;
+import daredevil.project.Exceptions.CantCreateUserException;
 import daredevil.project.models.*;
-import daredevil.project.repositories.*;
+import daredevil.project.models.Models.LandlordModel;
+import daredevil.project.models.Models.TenantModel;
+import daredevil.project.repositories.base.*;
+import daredevil.project.servieces.Base.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +32,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(User user) {
+    public void createUser(User user) throws CantCreateUserException {
         BankAccount bankAccount = user.getBank_account();
 
         bankAccountRepository.createBankAccount(bankAccount);
@@ -55,13 +60,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addAddress(Address address) {
+    public void addAddress(Address address) throws CantCreateAddressException {
         addressRepository.createAddress(address);
     }
 
     @Override
     public void addEstate(Estates estates) {
-        estatesRepository.createEstate(estates);
+        try {
+            estatesRepository.createEstate(estates);
+        } catch (CantCreateEstateException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     @Override
@@ -88,6 +99,33 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getUnoccupiedLandlords() {
         return userRepository.getUnoccupiedLandLords();
+    }
+
+    @Override
+    public void createUserByLandlordModel(LandlordModel landlordModel) throws CantCreateAddressException, CantCreateEstateException, CantCreateUserException {
+        Address address = new Address(landlordModel.getCountry(), landlordModel.getCity(), landlordModel.getStreet(), landlordModel.getStreetNumber(), landlordModel.getFloor(), landlordModel.getFlat(), landlordModel.getEntrance());
+        addressRepository.createAddress(address);
+        Estates estates = new Estates(landlordModel.getPrice(), landlordModel.getEstateName(), address);
+        estatesRepository.createEstate(estates);
+        UserType userType = userTypeRepository.getUserTypeByType("landlord");
+        User user = new User(landlordModel.getUserName(), landlordModel.getUserPassword(), landlordModel.getUserEmail(), userType, estates);
+        BankAccount bankAccount = user.getBank_account();
+
+        bankAccountRepository.createBankAccount(bankAccount);
+        userRepository.createUser(user);
+    }
+
+    @Override
+    public void createUserByTenantModel(TenantModel tenantModel) throws CantCreateUserException {
+        Estates estates = estatesRepository.getEstateByUserName(tenantModel.getLandlordName());
+        estates.setOccupied(true);
+        UserType userType = userTypeRepository.getUserTypeByType("tenant");
+        User user = new User(tenantModel.getUserName(), tenantModel.getUserPassword(), tenantModel.getUserEmail(), userType, estates);
+        BankAccount bankAccount = user.getBank_account();
+
+        bankAccountRepository.createBankAccount(bankAccount);
+        estatesRepository.updateEstate(estates.getId(), estates);
+        userRepository.createUser(user);
     }
 
 

@@ -1,12 +1,13 @@
 package daredevil.project.repositories;
 
+import daredevil.project.Exceptions.CantCreateUserException;
 import daredevil.project.models.*;
+import daredevil.project.repositories.base.UserRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void createUser(User user) {
+    public void createUser(User user) throws CantCreateUserException {
         try (
                 Session session = sessionFactory.openSession()
         ) {
@@ -31,7 +32,7 @@ public class UserRepositoryImpl implements UserRepository {
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            throw new RuntimeException(e);
+            throw new CantCreateUserException();
         }
     }
 

@@ -1,14 +1,15 @@
 package daredevil.project.repositories;
 
+import daredevil.project.Exceptions.CantCreateEstateException;
 import daredevil.project.models.Estates;
-import daredevil.project.models.User;
+import daredevil.project.repositories.base.EstatesRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class EstatesRepositoryImpl implements EstatesRepository{
+public class EstatesRepositoryImpl implements EstatesRepository {
     private final SessionFactory sessionFactory;
 
     @Autowired
@@ -18,7 +19,7 @@ public class EstatesRepositoryImpl implements EstatesRepository{
 
 
     @Override
-    public void createEstate(Estates estate) {
+    public void createEstate(Estates estate) throws CantCreateEstateException {
         try (
                 Session session = sessionFactory.openSession()
         ) {
@@ -28,7 +29,7 @@ public class EstatesRepositoryImpl implements EstatesRepository{
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage() + "estate");
-            throw new RuntimeException(e);
+            throw new CantCreateEstateException();
         }
     }
 

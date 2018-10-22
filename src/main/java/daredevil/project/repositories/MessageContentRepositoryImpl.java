@@ -1,13 +1,15 @@
 package daredevil.project.repositories;
 
+import daredevil.project.Exceptions.CantCreateMessageContentException;
 import daredevil.project.models.MessageContent;
+import daredevil.project.repositories.base.MessageContentRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class MessageContentRepositoryImpl implements MessageContentRepository{
+public class MessageContentRepositoryImpl implements MessageContentRepository {
     private final SessionFactory sessionFactory;
 
     @Autowired
@@ -17,7 +19,7 @@ public class MessageContentRepositoryImpl implements MessageContentRepository{
 
 
     @Override
-    public void createMessageContent(MessageContent messageContent) {
+    public void createMessageContent(MessageContent messageContent) throws CantCreateMessageContentException {
         try (
                 Session session = sessionFactory.openSession()
         ) {
@@ -27,7 +29,7 @@ public class MessageContentRepositoryImpl implements MessageContentRepository{
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage() + "messageContent");
-            throw new RuntimeException(e);
+            throw new CantCreateMessageContentException();
         }
     }
 

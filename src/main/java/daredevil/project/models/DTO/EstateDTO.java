@@ -1,10 +1,7 @@
 package daredevil.project.models.DTO;
 
-import daredevil.project.models.Address;
 import daredevil.project.models.Estates;
-import daredevil.project.repositories.AddressRepository;
-import daredevil.project.repositories.AddressRepositoryImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import daredevil.project.repositories.base.AddressRepository;
 
 public class EstateDTO {
     private int estateid;

@@ -1,13 +1,14 @@
 package daredevil.project.repositories;
 
 import daredevil.project.models.BankAccount;
+import daredevil.project.repositories.base.BankAccountRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class BankAccountRepositoryImpl implements BankAccountRepository{
+public class BankAccountRepositoryImpl implements BankAccountRepository {
     private final SessionFactory sessionFactory;
 
     @Autowired

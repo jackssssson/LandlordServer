@@ -1,11 +1,12 @@
-package daredevil.project.repositories;
+package daredevil.project.repositories.base;
 
+import daredevil.project.Exceptions.CantCreateUserException;
 import daredevil.project.models.User;
 
 import java.util.List;
 
 public interface UserRepository {
-    void createUser(User user);
+    void createUser(User user) throws CantCreateUserException;
     User getUserById(int id);
     void updateUser(int id, User user);
     void deleteUser(int id);

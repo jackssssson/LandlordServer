@@ -1,13 +1,14 @@
 package daredevil.project.repositories;
 
 import daredevil.project.models.UserType;
+import daredevil.project.repositories.base.UserTypeRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserTypeRepositoryImpl implements UserTypeRepository{
+public class UserTypeRepositoryImpl implements UserTypeRepository {
     private final SessionFactory sessionFactory;
 
     @Autowired

@@ -1,6 +1,8 @@
 package daredevil.project.repositories;
 
+import daredevil.project.Exceptions.CantCreateAddressException;
 import daredevil.project.models.Address;
+import daredevil.project.repositories.base.AddressRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,7 @@ public class AddressRepositoryImpl implements AddressRepository {
     }
 
     @Override
-    public void createAddress(Address address) {
+    public void createAddress(Address address) throws CantCreateAddressException {
         try (
                 Session session = sessionFactory.openSession()
         ) {
@@ -26,7 +28,7 @@ public class AddressRepositoryImpl implements AddressRepository {
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage() + "address");
-            throw new RuntimeException(e);
+            throw new CantCreateAddressException();
         }
     }
 

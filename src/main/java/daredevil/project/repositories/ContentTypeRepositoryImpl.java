@@ -1,13 +1,18 @@
 package daredevil.project.repositories;
 
 import daredevil.project.models.ContentType;
+import daredevil.project.models.Messages;
+import daredevil.project.repositories.base.ContentTypeRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Repository
-public class ContentTypeRepositoryImpl implements ContentTypeRepository{
+public class ContentTypeRepositoryImpl implements ContentTypeRepository {
     private final SessionFactory sessionFactory;
 
     @Autowired
@@ -77,5 +82,23 @@ public class ContentTypeRepositoryImpl implements ContentTypeRepository{
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public ContentType getContentTypeByName(String contentName) {
+        ContentType result;
+        try (
+                Session session = sessionFactory.openSession()
+
+        ) {
+            session.beginTransaction();
+            result = session.createQuery("from ContentType where contentType = :contentNameStr", ContentType.class).setParameter("contentNameStr", contentName).getSingleResult();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+
+        return result;
     }
 }

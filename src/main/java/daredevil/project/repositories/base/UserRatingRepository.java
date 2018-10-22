@@ -1,4 +1,4 @@
-package daredevil.project.repositories;
+package daredevil.project.repositories.base;
 
 import daredevil.project.models.UserRating;
 

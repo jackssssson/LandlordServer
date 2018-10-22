@@ -1,13 +1,14 @@
 package daredevil.project.repositories;
 
 import daredevil.project.models.UserRating;
+import daredevil.project.repositories.base.UserRatingRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserRatingRepositoryImpl implements UserRatingRepository{
+public class UserRatingRepositoryImpl implements UserRatingRepository {
     private final SessionFactory sessionFactory;
 
     @Autowired

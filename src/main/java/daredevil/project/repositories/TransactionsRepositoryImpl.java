@@ -1,13 +1,14 @@
 package daredevil.project.repositories;
 
 import daredevil.project.models.Transactions;
+import daredevil.project.repositories.base.TransactionsRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class TransactionsRepositoryImpl implements TransactionsRepository{
+public class TransactionsRepositoryImpl implements TransactionsRepository {
     private final SessionFactory sessionFactory;
 
     @Autowired

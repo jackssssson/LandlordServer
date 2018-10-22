@@ -39,6 +39,13 @@ public class Messages {
         this.timeStamp = timeStamp;
     }
 
+    public Messages( User sender, User recipient, Date timeStamp, ContentType contentType) {
+        this.message_content = new MessageContent(null, null, contentType, this);
+        this.sender = sender;
+        this.recipient = recipient;
+        this.timeStamp = timeStamp;
+    }
+
     public Messages() {
     }
 

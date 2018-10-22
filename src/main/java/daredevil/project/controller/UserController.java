@@ -1,13 +1,13 @@
 package daredevil.project.controller;
 
-import daredevil.project.models.DTO.TenantModel;
-import daredevil.project.servieces.UserService;
-import daredevil.project.models.Address;
-import daredevil.project.models.DTO.LandlordModel;
+import daredevil.project.Exceptions.CantCreateAddressException;
+import daredevil.project.Exceptions.CantCreateEstateException;
+import daredevil.project.Exceptions.CantCreateUserException;
+import daredevil.project.models.Models.TenantModel;
+import daredevil.project.servieces.Base.UserService;
+import daredevil.project.models.Models.LandlordModel;
 import daredevil.project.models.DTO.UserDTO;
-import daredevil.project.models.Estates;
 import daredevil.project.models.User;
-import daredevil.project.models.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,41 +25,66 @@ public class UserController {
     }
 
     @GetMapping("/getUser/{id}")
-    public UserDTO getUserById(@PathVariable int id){
+    public UserDTO getUserById(@PathVariable int id) {
         return UserDTO.getFromUser(service.getUserById(id));
     }
 
     @PostMapping("/addLandlord")
-    public void createUser(@RequestBody LandlordModel landlordModel) {
-        Address address=new Address(landlordModel.getCountry(), landlordModel.getCity(), landlordModel.getStreet(), landlordModel.getStreetNumber(), landlordModel.getFloor(), landlordModel.getFlat(), landlordModel.getEntrance());
-        service.addAddress(address);
-        Estates estates=new Estates(landlordModel.getPrice(), landlordModel.getEstateName(), address);
-        service.addEstate(estates);
-        address.setEstates(estates);
-        UserType userType=service.getUserTypeByType("landlord");
-        User user=new User(landlordModel.getUserName(), landlordModel.getUserPassword(), landlordModel.getUserEmail(), userType, estates);
+    public String createUser(@RequestBody LandlordModel landlordModel) {
+//        Address address=new Address(landlordModel.getCountry(), landlordModel.getCity(), landlordModel.getStreet(), landlordModel.getStreetNumber(), landlordModel.getFloor(), landlordModel.getFlat(), landlordModel.getEntrance());
+//        service.addAddress(address);
+//        Estates estates=new Estates(landlordModel.getPrice(), landlordModel.getEstateName(), address);
+//        service.addEstate(estates);
+//        address.setEstates(estates);
+//        UserType userType=service.getUserTypeByType("landlord");
+//        User user=new User(landlordModel.getUserName(), landlordModel.getUserPassword(), landlordModel.getUserEmail(), userType, estates);
 
 
-        service.createUser(user);
+        String message = "";
+        try {
+            service.createUserByLandlordModel(landlordModel);
+            message = "Landlord Created.";
+        } catch (CantCreateAddressException e) {
+            message = "Can't create Address";
+        } catch (CantCreateEstateException e) {
+            message = "Can't create Estate";
+        } catch (CantCreateUserException e) {
+            message = "Can't create Landlord";
+        } finally {
+            return message;
+        }
+
     }
 
     @GetMapping("/getUnoccupiedLandlords")
-    public List<UserDTO> getUnoccupiedLandlords(){
-        List<UserDTO> result=new ArrayList<>();
-        service.getUnoccupiedLandlords().stream().forEach(item->result.add(UserDTO.getFromUser(item)));
+    public List<UserDTO> getUnoccupiedLandlords() {
+        List<UserDTO> result = new ArrayList<>();
+        service.getUnoccupiedLandlords().stream().forEach(item -> result.add(UserDTO.getFromUser(item)));
         return result;
     }
 
     @PostMapping("/addTenant")
-    public void createUser(@RequestBody TenantModel tenantModel) {
-        Estates estates=service.getEstateByUserName(tenantModel.getLandlordName());
-        estates.setOccupied(true);
-        int b=5;
-        UserType userType=service.getUserTypeByType("tenant");
-        User user=new User(tenantModel.getUserName(), tenantModel.getUserPassword(), tenantModel.getUserEmail(), userType, estates);
-        service.updateEstate(estates.getId(), estates);
+    public String createUser(@RequestBody TenantModel tenantModel) {
+//        Estates estates=service.getEstateByUserName(tenantModel.getLandlordName());
+//        estates.setOccupied(true);
+//        int b=5;
+//        UserType userType=service.getUserTypeByType("tenant");
+//        User user=new User(tenantModel.getUserName(), tenantModel.getUserPassword(), tenantModel.getUserEmail(), userType, estates);
+//        service.updateEstate(estates.getId(), estates);
+//
+//        service.createUser(user);
 
-        service.createUser(user);
+        String message="";
+        try {
+            service.createUserByTenantModel(tenantModel);
+            message="Tenant created";
+        } catch (CantCreateUserException e) {
+            message="Can't create Tenant.";
+        }
+        finally {
+            return message;
+        }
+
     }
 
     @PutMapping("/updateUser/{id}")

@@ -12,7 +12,7 @@ public class ContentType {
     @Column(name = "content_TypeID")
     private int id;
 
-    @Column(name = "content_Type", nullable = false)
+    @Column(name = "content_Type", nullable = false, unique = true)
     private String contentType;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "content_types")

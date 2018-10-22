@@ -1,4 +1,4 @@
-package daredevil.project.models.DTO;
+package daredevil.project.models.Models;
 
 public class TenantModel {
     private String userName;
