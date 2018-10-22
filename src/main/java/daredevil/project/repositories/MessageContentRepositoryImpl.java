@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class MessageContentImpl implements MessageContentRepository{
+public class MessageContentRepositoryImpl implements MessageContentRepository{
     private final SessionFactory sessionFactory;
 
     @Autowired
-    public MessageContentImpl(SessionFactory sessionFactory) {
+    public MessageContentRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 

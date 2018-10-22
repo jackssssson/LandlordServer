@@ -4,11 +4,13 @@ public class TenantModel {
     private String userName;
     private String userPassword;
     private String userEmail;
+    private String landlordName;
 
-    public TenantModel(String userName, String userPassword, String userEmail) {
+    public TenantModel(String userName, String userPassword, String userEmail, String landlordName) {
         this.userName = userName;
         this.userPassword = userPassword;
         this.userEmail = userEmail;
+        this.landlordName=landlordName;
     }
 
     public TenantModel() {
@@ -36,5 +38,13 @@ public class TenantModel {
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    public String getLandlordName() {
+        return landlordName;
+    }
+
+    public void setLandlordName(String landlordName) {
+        this.landlordName = landlordName;
     }
 }

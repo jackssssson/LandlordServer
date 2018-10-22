@@ -1,8 +1,11 @@
 package daredevil.project.models;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.*;
 
 @Entity
+@Proxy(lazy = false)
 @Table(name = "addresses",
         uniqueConstraints=@UniqueConstraint(columnNames={"city", "street", "street_number", "flat", "entrance"}))
 public class Address {
