@@ -46,14 +46,13 @@ public class MessagesServiceImpl implements MessagesService {
 
     @Override
     public void postMessage(MessagesModel message, String messageType) throws CantCreateMessageException, CantCreateMessageContentException {
-        //MessageContent message_content, User sender, User recipient, Date timeStamp
         Date date=new Date();
         ContentType contentType=contentTypeRepository.getContentTypeByName(messageType);
         Messages messages=new Messages(userRepository.getUserByName(message.getSenderName()), userRepository.getUserByName(message.getRecipientName()), date, contentType);
         MessageContent messageContent=messages.getMessage_content();
         messageContent.setTextMessage(message.getTextMessage());
         messageContentRepository.createMessageContent(messageContent);
-        messagesRepository.postMesssage(messages);
+        //messagesRepository.postMesssage(messages);
 
     }
 }

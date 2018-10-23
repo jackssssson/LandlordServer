@@ -31,15 +31,6 @@ public class UserController {
 
     @PostMapping("/addLandlord")
     public String createUser(@RequestBody LandlordModel landlordModel) {
-//        Address address=new Address(landlordModel.getCountry(), landlordModel.getCity(), landlordModel.getStreet(), landlordModel.getStreetNumber(), landlordModel.getFloor(), landlordModel.getFlat(), landlordModel.getEntrance());
-//        service.addAddress(address);
-//        Estates estates=new Estates(landlordModel.getPrice(), landlordModel.getEstateName(), address);
-//        service.addEstate(estates);
-//        address.setEstates(estates);
-//        UserType userType=service.getUserTypeByType("landlord");
-//        User user=new User(landlordModel.getUserName(), landlordModel.getUserPassword(), landlordModel.getUserEmail(), userType, estates);
-
-
         String message = "";
         try {
             service.createUserByLandlordModel(landlordModel);
@@ -65,14 +56,6 @@ public class UserController {
 
     @PostMapping("/addTenant")
     public String createUser(@RequestBody TenantModel tenantModel) {
-//        Estates estates=service.getEstateByUserName(tenantModel.getLandlordName());
-//        estates.setOccupied(true);
-//        int b=5;
-//        UserType userType=service.getUserTypeByType("tenant");
-//        User user=new User(tenantModel.getUserName(), tenantModel.getUserPassword(), tenantModel.getUserEmail(), userType, estates);
-//        service.updateEstate(estates.getId(), estates);
-//
-//        service.createUser(user);
 
         String message="";
         try {
