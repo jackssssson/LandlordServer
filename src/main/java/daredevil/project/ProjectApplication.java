@@ -19,12 +19,10 @@ public class ProjectApplication {
                 .configure()
                 .addAnnotatedClass(User.class)
                 .addAnnotatedClass(Address.class)
-                .addAnnotatedClass(BankAccount.class)
                 .addAnnotatedClass(ContentType.class)
                 .addAnnotatedClass(Estates.class)
                 .addAnnotatedClass(MessageContent.class)
                 .addAnnotatedClass(Messages.class)
-                .addAnnotatedClass(Transactions.class)
                 .addAnnotatedClass(UserRating.class)
                 .addAnnotatedClass(UserType.class)
                 .buildSessionFactory();

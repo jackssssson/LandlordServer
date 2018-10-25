@@ -5,37 +5,41 @@ import daredevil.project.Exceptions.CantCreateAddressException;
 import daredevil.project.Exceptions.CantCreateEstateException;
 import daredevil.project.Exceptions.CantCreateUserException;
 import daredevil.project.models.*;
+import daredevil.project.models.Models.BankAccountModel;
 import daredevil.project.models.Models.LandlordModel;
 import daredevil.project.models.Models.TenantModel;
+import daredevil.project.okhttp.HttpRequester;
+import daredevil.project.parser.Base.JsonParser;
+import daredevil.project.parser.GsonParser;
 import daredevil.project.repositories.base.*;
 import daredevil.project.servieces.Base.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
-    private BankAccountRepository bankAccountRepository;
     private EstatesRepository estatesRepository;
     private AddressRepository addressRepository;
     private UserTypeRepository userTypeRepository;
+    private JsonParser<BankAccountModel> jsonParser;
+    private HttpRequester httpRequester;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, BankAccountRepository bankAccountRepository, EstatesRepository estatesRepository, UserTypeRepository userTypeRepository, AddressRepository addressRepository) {
+    public UserServiceImpl(UserRepository userRepository,  EstatesRepository estatesRepository, UserTypeRepository userTypeRepository, AddressRepository addressRepository,  HttpRequester httpRequester) {
         this.userRepository = userRepository;
-        this.bankAccountRepository = bankAccountRepository;
         this.estatesRepository = estatesRepository;
         this.userTypeRepository = userTypeRepository;
         this.addressRepository = addressRepository;
+        this.jsonParser=new GsonParser<>(BankAccountModel.class, BankAccountModel[].class);
+        this.httpRequester=httpRequester;
     }
 
     @Override
     public void createUser(User user) throws CantCreateUserException {
-        BankAccount bankAccount = user.getBank_account();
-
-        bankAccountRepository.createBankAccount(bankAccount);
         userRepository.createUser(user);
     }
 
@@ -108,10 +112,7 @@ public class UserServiceImpl implements UserService {
         Estates estates = new Estates(landlordModel.getPrice(), landlordModel.getEstateName(), address);
         estatesRepository.createEstate(estates);
         UserType userType = userTypeRepository.getUserTypeByType("landlord");
-        User user = new User(landlordModel.getUserName(), landlordModel.getUserPassword(), landlordModel.getUserEmail(), userType, estates);
-        BankAccount bankAccount = user.getBank_account();
-
-        bankAccountRepository.createBankAccount(bankAccount);
+        User user = new User(landlordModel.getUserName(), landlordModel.getUserPassword(), landlordModel.getUserEmail(), landlordModel.getUserIban(), userType, estates);
         userRepository.createUser(user);
     }
 
@@ -120,12 +121,33 @@ public class UserServiceImpl implements UserService {
         Estates estates = estatesRepository.getEstateByUserName(tenantModel.getLandlordName());
         estates.setOccupied(true);
         UserType userType = userTypeRepository.getUserTypeByType("tenant");
-        User user = new User(tenantModel.getUserName(), tenantModel.getUserPassword(), tenantModel.getUserEmail(), userType, estates);
-        BankAccount bankAccount = user.getBank_account();
+        User user = new User(tenantModel.getUserName(), tenantModel.getUserPassword(), tenantModel.getUserEmail(), tenantModel.getIban(), userType, estates);
 
-        bankAccountRepository.createBankAccount(bankAccount);
         estatesRepository.updateEstate(estates.getId(), estates);
         userRepository.createUser(user);
+    }
+
+    @Override
+    public void createBankAccount(BankAccountModel bankAccountModel) {
+        String body=jsonParser.toJson(bankAccountModel);
+        try {
+            httpRequester.post("http://78.90.22.72:8080/landlordBank/addBankAccount", body);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public BankAccountModel getBankAccount(String iban){
+        BankAccountModel bankAccountModel=null;
+        try {
+            String json=httpRequester.get("http://78.90.22.72:8080/landlordBank/getBankAccount/"+iban);
+            bankAccountModel=jsonParser.fromJson(json);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bankAccountModel;
     }
 
 

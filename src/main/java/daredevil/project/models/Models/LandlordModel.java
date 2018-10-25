@@ -4,6 +4,7 @@ public class LandlordModel {
     private String userName;
     private String userPassword;
     private String userEmail;
+    private String userIban;
     private String city;
     private String country;
     private String street;
@@ -14,19 +15,20 @@ public class LandlordModel {
     private float price;
     private String estateName;
 
-    public LandlordModel(String userName, String userPassword, String userEmail, String city, String country, String street, int flat, int streetNumber, int floor, char entrance, float price, String estateName) {
+    public LandlordModel(String userName, String userPassword, String userEmail, String userIban, String city, String country, String street, int flat, int streetNumber, int floor, char entrance, float price, String estateName) {
         this.userName = userName;
         this.userPassword = userPassword;
         this.userEmail = userEmail;
+        this.userIban = userIban;
         this.city = city;
         this.country = country;
         this.street = street;
         this.flat = flat;
         this.streetNumber = streetNumber;
-        this.floor=floor;
+        this.floor = floor;
         this.entrance = entrance;
         this.price = price;
-        this.estateName=estateName;
+        this.estateName = estateName;
     }
 
     public LandlordModel() {
@@ -54,6 +56,14 @@ public class LandlordModel {
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    public String getUserIban() {
+        return userIban;
+    }
+
+    public void setUserIban(String userIban) {
+        this.userIban = userIban;
     }
 
     public String getCity() {

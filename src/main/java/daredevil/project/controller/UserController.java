@@ -3,6 +3,7 @@ package daredevil.project.controller;
 import daredevil.project.Exceptions.CantCreateAddressException;
 import daredevil.project.Exceptions.CantCreateEstateException;
 import daredevil.project.Exceptions.CantCreateUserException;
+import daredevil.project.models.Models.BankAccountModel;
 import daredevil.project.models.Models.TenantModel;
 import daredevil.project.servieces.Base.UserService;
 import daredevil.project.models.Models.LandlordModel;
@@ -78,5 +79,15 @@ public class UserController {
     @DeleteMapping("/deleteUser{id}")
     public void deleteUser(@PathVariable int id) {
         service.deleteUser(id);
+    }
+
+    @GetMapping("/getBankAccount/{iban}")
+    public BankAccountModel getBankAccount(@PathVariable String iban){
+        return service.getBankAccount(iban);
+    }
+
+    @PostMapping("/addBankAccount")
+    public void addBankAccount(@RequestBody BankAccountModel bankAccountModel){
+        service.createBankAccount(bankAccountModel);
     }
 }

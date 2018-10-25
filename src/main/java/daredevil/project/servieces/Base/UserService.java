@@ -4,6 +4,7 @@ import daredevil.project.Exceptions.CantCreateAddressException;
 import daredevil.project.Exceptions.CantCreateEstateException;
 import daredevil.project.Exceptions.CantCreateUserException;
 import daredevil.project.models.Address;
+import daredevil.project.models.Models.BankAccountModel;
 import daredevil.project.models.Models.LandlordModel;
 import daredevil.project.models.Models.TenantModel;
 import daredevil.project.models.Estates;
@@ -25,6 +26,9 @@ public interface UserService {
     Estates getEstateByUserName(String user);
     boolean updateEstate(int id, Estates estates);
     List<User> getUnoccupiedLandlords();
-    public void createUserByLandlordModel(LandlordModel landlordModel) throws CantCreateAddressException, CantCreateEstateException, CantCreateUserException;
-    public void createUserByTenantModel(TenantModel tenantModel) throws CantCreateUserException;
+    void createUserByLandlordModel(LandlordModel landlordModel) throws CantCreateAddressException, CantCreateEstateException, CantCreateUserException;
+    void createUserByTenantModel(TenantModel tenantModel) throws CantCreateUserException;
+    void createBankAccount(BankAccountModel bankAccountModel);
+    public BankAccountModel getBankAccount(String iban);
+
 }

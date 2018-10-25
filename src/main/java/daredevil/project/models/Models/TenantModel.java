@@ -4,13 +4,15 @@ public class TenantModel {
     private String userName;
     private String userPassword;
     private String userEmail;
+    private String iban;
     private String landlordName;
 
-    public TenantModel(String userName, String userPassword, String userEmail, String landlordName) {
+    public TenantModel(String userName, String userPassword, String userEmail, String iban, String landlordName) {
         this.userName = userName;
         this.userPassword = userPassword;
         this.userEmail = userEmail;
-        this.landlordName=landlordName;
+        this.iban = iban;
+        this.landlordName = landlordName;
     }
 
     public TenantModel() {
@@ -38,6 +40,14 @@ public class TenantModel {
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    public String getIban() {
+        return iban;
+    }
+
+    public void setIban(String iban) {
+        this.iban = iban;
     }
 
     public String getLandlordName() {

@@ -26,6 +26,9 @@ public class User {
     @Column(name = "user_Email", nullable = false)
     private String email;
 
+    @Column(name = "iban")
+    private String iban;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "users")
     @JsonIgnore
     private Set<UserRating> user_ratings;
@@ -40,10 +43,6 @@ public class User {
     @JsonIgnore
     private Estates estates;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "bank_AccountID", nullable = false)
-    @JsonIgnore
-    private BankAccount bank_account;
 
     @OneToMany(mappedBy = "recipient", fetch = FetchType.EAGER)
     @JsonIgnore
@@ -53,26 +52,26 @@ public class User {
     @JsonIgnore
     private Set<Messages> senderMessage;
 
-    public User(String name, String password, String email, Set<UserRating> user_ratings, UserType user_types, Estates estates, BankAccount bank_account, Set<Messages> recipientMessage, Set<Messages> senderMessage) {
+    public User(String name, String password, String email, String iban, Set<UserRating> user_ratings, UserType user_types, Estates estates, Set<Messages> recipientMessage, Set<Messages> senderMessage) {
         this.name = name;
         this.password = password;
         this.email = email;
+        this.iban=iban;
         this.user_ratings = user_ratings;
         this.user_types = user_types;
         this.estates = estates;
-        this.bank_account = bank_account;
         this.recipientMessage = recipientMessage;
         this.senderMessage = senderMessage;
     }
 
-    public User(String name, String password, String email,  UserType user_types, Estates estates) {
+    public User(String name, String password, String email, String iban,  UserType user_types, Estates estates) {
         this.name = name;
         this.password = password;
         this.email = email;
+        this.iban=iban;
         this.user_ratings = new HashSet<>();
         this.user_types = user_types;
         this.estates = estates;
-        this.bank_account = new BankAccount(0, this);
         this.recipientMessage = new HashSet<>();
         this.senderMessage = new HashSet<>();
     }
@@ -113,6 +112,13 @@ public class User {
         this.email = email;
     }
 
+    public String getIban() {
+        return iban;
+    }
+
+    public void setIban(String iban) {
+        this.iban = iban;
+    }
 
     public Set<UserRating> getUser_ratings() {
         return user_ratings;
@@ -137,16 +143,6 @@ public class User {
     public void setEstates(Estates estates) {
         this.estates = estates;
     }
-
-
-    public BankAccount getBank_account() {
-        return bank_account;
-    }
-
-    public void setBank_account(BankAccount bank_account) {
-        this.bank_account = bank_account;
-    }
-
 
     public Set<Messages> getRecipientMessage() {
         return recipientMessage;
