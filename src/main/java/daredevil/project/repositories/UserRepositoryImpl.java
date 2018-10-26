@@ -1,7 +1,9 @@
 package daredevil.project.repositories;
 
 import daredevil.project.Exceptions.CantCreateUserException;
+import daredevil.project.Exceptions.NoUserFountEsception;
 import daredevil.project.models.*;
+import daredevil.project.models.Models.LoginModel;
 import daredevil.project.repositories.base.UserRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -63,6 +65,8 @@ public class UserRepositoryImpl implements UserRepository {
             userToChange.setName(user.getName());
             userToChange.setEmail(user.getEmail());
             userToChange.setPassword(user.getPassword());
+            userToChange.setIban(user.getIban());
+            userToChange.setEstates(user.getEstates());
 
             session.getTransaction().commit();
 
@@ -90,8 +94,7 @@ public class UserRepositoryImpl implements UserRepository {
         List<User> result=new ArrayList<>();
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            result=session.createQuery("from User where user_types in(from UserType where type = :typeStr)", User.class)
-                    .setParameter("typeStr", type).list();
+            result=session.createQuery("from User where user_type = :typeStr", User.class).setParameter("typeStr", type).list();
             session.getTransaction().commit();
             System.out.println("User deleted successfully.");
 
@@ -107,7 +110,7 @@ public class UserRepositoryImpl implements UserRepository {
         User result;
         try(Session session=sessionFactory.openSession()){
             session.beginTransaction();
-            result=session.createQuery("from User where user_name =:userNameStr", User.class).setParameter("userNameStr", name).getSingleResult();
+            result=session.createQuery("from User where name =:userNameStr", User.class).setParameter("userNameStr", name).getSingleResult();
             session.getTransaction().commit();
             System.out.println("User:"+result.getName());
         }catch (Exception e){
@@ -124,7 +127,7 @@ public class UserRepositoryImpl implements UserRepository {
         List<User> result=new ArrayList<>();
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            result=session.createQuery("from User where user_types in(from UserType where type = 'landlord') and estates in(from Estates where occupied = false)", User.class).list();
+            result=session.createQuery("from User where user_type ='Landlord' and estates in(from Estates where occupied = false)", User.class).list();
             session.getTransaction().commit();
             System.out.println("Unoccupied LandLords.");
 
@@ -133,5 +136,34 @@ public class UserRepositoryImpl implements UserRepository {
             e.printStackTrace();
         }
         return result;
+    }
+
+    @Override
+    public User getUserByLoginModel(String name, String password) {
+        User result;
+        try(Session session=sessionFactory.openSession()){
+            session.beginTransaction();
+            result=session.createQuery("from User where name =:userNameStr and password =:userPasswordStr", User.class)
+                    .setParameter("userNameStr", name)
+                    .setParameter("userPasswordStr", password).getSingleResult();
+            session.getTransaction().commit();
+            System.out.println("User:"+result.getName());
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+        return result;
+    }
+
+    public boolean checkUserLogin(String name, String password){
+        try(Session session=sessionFactory.openSession()){
+            session.beginTransaction();
+            session.createQuery("from User where name =:userNameStr and password =:userPasswordStr", User.class)
+                    .setParameter("userNameStr", name)
+                    .setParameter("userPasswordStr", password).getSingleResult();
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }

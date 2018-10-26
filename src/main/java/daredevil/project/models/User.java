@@ -1,10 +1,11 @@
 package daredevil.project.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -33,15 +34,14 @@ public class User {
     @JsonIgnore
     private Set<UserRating> user_ratings;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_TypeID", nullable = false)
-    @JsonIgnore
-    private UserType user_types;
+    @Column(name = "user_type", nullable = false)
+    private String user_type;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "estateID", nullable = false)
-    @JsonIgnore
-    private Estates estates;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_estate",
+    joinColumns = @JoinColumn(name = "userID"),
+    inverseJoinColumns = @JoinColumn(name = "EstateID"))
+    private List<Estates> estates;
 
 
     @OneToMany(mappedBy = "recipient", fetch = FetchType.EAGER)
@@ -52,26 +52,38 @@ public class User {
     @JsonIgnore
     private Set<Messages> senderMessage;
 
-    public User(String name, String password, String email, String iban, Set<UserRating> user_ratings, UserType user_types, Estates estates, Set<Messages> recipientMessage, Set<Messages> senderMessage) {
+    public User(String name, String password, String email, String iban, Set<UserRating> user_ratings, String user_type, List<Estates> estates, Set<Messages> recipientMessage, Set<Messages> senderMessage) {
         this.name = name;
         this.password = password;
         this.email = email;
         this.iban=iban;
         this.user_ratings = user_ratings;
-        this.user_types = user_types;
+        this.user_type = user_type;
         this.estates = estates;
         this.recipientMessage = recipientMessage;
         this.senderMessage = senderMessage;
     }
 
-    public User(String name, String password, String email, String iban,  UserType user_types, Estates estates) {
+    public User(String name, String password, String email, String iban, String user_type, List<Estates> estates) {
         this.name = name;
         this.password = password;
         this.email = email;
         this.iban=iban;
         this.user_ratings = new HashSet<>();
-        this.user_types = user_types;
+        this.user_type = user_type;
         this.estates = estates;
+        this.recipientMessage = new HashSet<>();
+        this.senderMessage = new HashSet<>();
+    }
+
+    public User(String name, String password, String email, String iban, String user_type) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.iban=iban;
+        this.user_ratings = new HashSet<>();
+        this.user_type = user_type;
+        this.estates = new ArrayList<>();
         this.recipientMessage = new HashSet<>();
         this.senderMessage = new HashSet<>();
     }
@@ -128,19 +140,19 @@ public class User {
         this.user_ratings = user_ratings;
     }
 
-    public UserType getUser_types() {
-        return user_types;
+    public String getUser_type() {
+        return user_type;
     }
 
-    public void setUser_types(UserType user_types) {
-        this.user_types = user_types;
+    public void setUser_type(String user_types) {
+        this.user_type = user_types;
     }
 
-    public Estates getEstates() {
+    public List<Estates> getEstates() {
         return estates;
     }
 
-    public void setEstates(Estates estates) {
+    public void setEstates(List<Estates> estates) {
         this.estates = estates;
     }
 
@@ -158,6 +170,10 @@ public class User {
 
     public void setSenderMessage(Set<Messages> senderMessage) {
         this.senderMessage = senderMessage;
+    }
+
+    public void addEstate(Estates estates){
+        this.estates.add(estates);
     }
 }
 

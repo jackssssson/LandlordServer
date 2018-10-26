@@ -1,25 +1,27 @@
 package daredevil.project.models.DTO;
 
 import daredevil.project.models.Estates;
-import daredevil.project.repositories.base.AddressRepository;
+
+import java.util.Date;
 
 public class EstateDTO {
     private int estateid;
     private String estateName;
     private boolean occupied;
     private float price;
-    private AddressDTO address;
-    private AddressRepository addressRepository;
+    private String address;
+    private String duedate;
 
     public EstateDTO() {
     }
 
-    public EstateDTO(int estateid, String estateName, boolean occupied, float price, AddressDTO address) {
+    public EstateDTO(int estateid, String estateName, boolean occupied, float price, String address, String duedate) {
         this.estateid = estateid;
         this.estateName = estateName;
         this.occupied = occupied;
         this.price = price;
         this.address = address;
+        this.duedate = duedate;
     }
 
     public int getEstateid() {
@@ -54,15 +56,23 @@ public class EstateDTO {
         this.price = price;
     }
 
-    public AddressDTO getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(AddressDTO address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
+    public String getDuedate() {
+        return duedate;
+    }
+
+    public void setDuedate(String duedate) {
+        this.duedate = duedate;
+    }
+
     public static EstateDTO getFromEstate(Estates estates){
-        return new EstateDTO(estates.getId(), estates.getEstateName(), estates.isOccupied(), estates.getPrice(), AddressDTO.getFromAddress(estates.getAddresses()));
+        return new EstateDTO(estates.getId(), estates.getEstateName(), estates.isOccupied(), estates.getPrice(),  estates.getAddresses(), estates.getDueDate().toString());
     }
 }

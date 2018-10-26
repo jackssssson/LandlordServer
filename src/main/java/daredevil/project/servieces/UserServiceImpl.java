@@ -1,13 +1,13 @@
 package daredevil.project.servieces;
 
 
-import daredevil.project.Exceptions.CantCreateAddressException;
 import daredevil.project.Exceptions.CantCreateEstateException;
 import daredevil.project.Exceptions.CantCreateUserException;
+import daredevil.project.Exceptions.NoUserFountEsception;
 import daredevil.project.models.*;
+import daredevil.project.models.DTO.UserDTO;
 import daredevil.project.models.Models.BankAccountModel;
-import daredevil.project.models.Models.LandlordModel;
-import daredevil.project.models.Models.TenantModel;
+import daredevil.project.models.Models.LoginModel;
 import daredevil.project.okhttp.HttpRequester;
 import daredevil.project.parser.Base.JsonParser;
 import daredevil.project.parser.GsonParser;
@@ -23,17 +23,13 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private EstatesRepository estatesRepository;
-    private AddressRepository addressRepository;
-    private UserTypeRepository userTypeRepository;
     private JsonParser<BankAccountModel> jsonParser;
     private HttpRequester httpRequester;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository,  EstatesRepository estatesRepository, UserTypeRepository userTypeRepository, AddressRepository addressRepository,  HttpRequester httpRequester) {
+    public UserServiceImpl(UserRepository userRepository,  EstatesRepository estatesRepository, HttpRequester httpRequester) {
         this.userRepository = userRepository;
         this.estatesRepository = estatesRepository;
-        this.userTypeRepository = userTypeRepository;
-        this.addressRepository = addressRepository;
         this.jsonParser=new GsonParser<>(BankAccountModel.class, BankAccountModel[].class);
         this.httpRequester=httpRequester;
     }
@@ -58,15 +54,6 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteUser(id);
     }
 
-    @Override
-    public UserType getUserTypeByType(String type) {
-        return userTypeRepository.getUserTypeByType(type);
-    }
-
-    @Override
-    public void addAddress(Address address) throws CantCreateAddressException {
-        addressRepository.createAddress(address);
-    }
 
     @Override
     public void addEstate(Estates estates) {
@@ -100,31 +87,21 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
-    @Override
-    public List<User> getUnoccupiedLandlords() {
-        return userRepository.getUnoccupiedLandLords();
-    }
+//    @Override
+//    public List<User> getUnoccupiedLandlords() {
+//        return userRepository.getUnoccupiedLandLords();
+//    }
+
 
     @Override
-    public void createUserByLandlordModel(LandlordModel landlordModel) throws CantCreateAddressException, CantCreateEstateException, CantCreateUserException {
-        Address address = new Address(landlordModel.getCountry(), landlordModel.getCity(), landlordModel.getStreet(), landlordModel.getStreetNumber(), landlordModel.getFloor(), landlordModel.getFlat(), landlordModel.getEntrance());
-        addressRepository.createAddress(address);
-        Estates estates = new Estates(landlordModel.getPrice(), landlordModel.getEstateName(), address);
-        estatesRepository.createEstate(estates);
-        UserType userType = userTypeRepository.getUserTypeByType("landlord");
-        User user = new User(landlordModel.getUserName(), landlordModel.getUserPassword(), landlordModel.getUserEmail(), landlordModel.getUserIban(), userType, estates);
+    public void createUserByUserDTOandType(UserDTO userDTO, String type) throws CantCreateUserException {
+        User user = new User(userDTO.getUserName(), userDTO.getUserPassword(), userDTO.getUserEmail(), userDTO.getUserIban(), type);
         userRepository.createUser(user);
     }
 
     @Override
-    public void createUserByTenantModel(TenantModel tenantModel) throws CantCreateUserException {
-        Estates estates = estatesRepository.getEstateByUserName(tenantModel.getLandlordName());
-        estates.setOccupied(true);
-        UserType userType = userTypeRepository.getUserTypeByType("tenant");
-        User user = new User(tenantModel.getUserName(), tenantModel.getUserPassword(), tenantModel.getUserEmail(), tenantModel.getIban(), userType, estates);
-
-        estatesRepository.updateEstate(estates.getId(), estates);
-        userRepository.createUser(user);
+    public boolean checkUserLogin(String name, String password) {
+        return false;
     }
 
     @Override
@@ -148,6 +125,11 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
         }
         return bankAccountModel;
+    }
+
+    @Override
+    public User getUserByLoginModel(String name, String password) throws NoUserFountEsception {
+        return userRepository.getUserByLoginModel(name, password);
     }
 
 

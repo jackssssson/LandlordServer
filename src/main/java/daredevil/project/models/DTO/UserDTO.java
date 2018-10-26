@@ -2,22 +2,27 @@ package daredevil.project.models.DTO;
 
 import daredevil.project.models.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserDTO {
     private int userid;
     private String userEmail;
     private String userName;
     private String userPassword;
-    private EstateDTO estate;
+    private String userIban;
+    private List<EstateDTO> estateDTOS;
 
     public UserDTO() {
     }
 
-    public UserDTO(int userid, String userEmail, String userName, String userPassword, EstateDTO estate) {
+    public UserDTO(int userid, String userEmail, String userName, String userPassword, String userIban) {
         this.userid = userid;
         this.userEmail = userEmail;
         this.userName = userName;
         this.userPassword = userPassword;
-        this.estate = estate;
+        this.userIban=userIban;
+        this.estateDTOS=new ArrayList<>();
     }
 
     public int getUserid() {
@@ -52,15 +57,23 @@ public class UserDTO {
         this.userPassword = userPassword;
     }
 
-    public EstateDTO getEstate() {
-        return estate;
+    public String getUserIban() {
+        return userIban;
     }
 
-    public void setEstate(EstateDTO estate) {
-        this.estate = estate;
+    public void setUserIban(String userIban) {
+        this.userIban = userIban;
     }
 
     public static UserDTO getFromUser(User user){
-        return new UserDTO(user.getId(), user.getEmail(), user.getName(), user.getPassword(), EstateDTO.getFromEstate(user.getEstates()));
+        return new UserDTO(user.getId(), user.getEmail(), user.getName(), user.getPassword(), user.getIban());
+    }
+
+    public List<EstateDTO> getEstateDTOS() {
+        return estateDTOS;
+    }
+
+    public void setEstateDTOS(List<EstateDTO> estateDTOS) {
+        this.estateDTOS = estateDTOS;
     }
 }

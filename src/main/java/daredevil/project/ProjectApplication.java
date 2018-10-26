@@ -18,13 +18,11 @@ public class ProjectApplication {
         return new org.hibernate.cfg.Configuration()
                 .configure()
                 .addAnnotatedClass(User.class)
-                .addAnnotatedClass(Address.class)
                 .addAnnotatedClass(ContentType.class)
                 .addAnnotatedClass(Estates.class)
                 .addAnnotatedClass(MessageContent.class)
                 .addAnnotatedClass(Messages.class)
                 .addAnnotatedClass(UserRating.class)
-                .addAnnotatedClass(UserType.class)
                 .buildSessionFactory();
     }
 }
