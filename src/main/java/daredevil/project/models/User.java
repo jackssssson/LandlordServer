@@ -24,7 +24,7 @@ public class User {
     @Column(name = "user_Password", nullable = false)
     private String password;
 
-    @Column(name = "user_Email", nullable = false)
+    @Column(name = "user_Email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "iban")

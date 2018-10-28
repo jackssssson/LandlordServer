@@ -24,7 +24,8 @@ public interface UserService {
     void createBankAccount(BankAccountModel bankAccountModel);
     public BankAccountModel getBankAccount(String iban);
     User getUserByLoginModel(String name, String password) throws NoUserFountEsception;
-    public void createUserByUserDTOandType(UserDTO userDTO, String type) throws CantCreateUserException;
+    public void createUserByUserDTOAndType(UserDTO userDTO, String type) throws CantCreateUserException;
     boolean checkUserLogin(String name, String password);
+    public String isUserFree(UserDTO userDTO);
 
 }

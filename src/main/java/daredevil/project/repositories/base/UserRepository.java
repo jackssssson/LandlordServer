@@ -2,6 +2,7 @@ package daredevil.project.repositories.base;
 
 import daredevil.project.Exceptions.CantCreateUserException;
 import daredevil.project.Exceptions.NoUserFountEsception;
+import daredevil.project.models.DTO.UserDTO;
 import daredevil.project.models.Models.LoginModel;
 import daredevil.project.models.User;
 
@@ -16,4 +17,6 @@ public interface UserRepository {
     User getUserByName(String name);
     User getUserByLoginModel(String name, String password) throws NoUserFountEsception;
     List<User> getUnoccupiedLandLords();
+    public boolean checkUserLogin(String name, String password);
+    public String isUserFree(UserDTO userDTO);
 }

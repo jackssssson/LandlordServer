@@ -3,6 +3,7 @@ package daredevil.project.repositories;
 import daredevil.project.Exceptions.CantCreateUserException;
 import daredevil.project.Exceptions.NoUserFountEsception;
 import daredevil.project.models.*;
+import daredevil.project.models.DTO.UserDTO;
 import daredevil.project.models.Models.LoginModel;
 import daredevil.project.repositories.base.UserRepository;
 import org.hibernate.Session;
@@ -32,6 +33,7 @@ public class UserRepositoryImpl implements UserRepository {
 
             session.save(user);
             session.getTransaction().commit();
+//            int b=5;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new CantCreateUserException();
@@ -155,6 +157,7 @@ public class UserRepositoryImpl implements UserRepository {
         return result;
     }
 
+    @Override
     public boolean checkUserLogin(String name, String password){
         try(Session session=sessionFactory.openSession()){
             session.beginTransaction();
@@ -164,6 +167,25 @@ public class UserRepositoryImpl implements UserRepository {
             return true;
         }catch (Exception e){
             return false;
+        }
+    }
+
+    @Override
+    public String isUserFree(UserDTO userDTO){
+        try(Session session=sessionFactory.openSession()){
+            session.beginTransaction();
+            List<User> lu;
+            lu=session.createQuery("from User where name=:UserName", User.class).setParameter("UserName", userDTO.getUserName()).list();
+            if(lu.size()>0)
+                return "Username exists!";
+            lu=null;
+            lu=session.createQuery("from User where email=:UserEmail", User.class).setParameter("UserEmail", userDTO.getUserEmail()).list();
+            if(lu.size()>0)
+                return "Email exists!";
+            return "User is free";
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
         }
     }
 }

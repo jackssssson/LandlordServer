@@ -12,6 +12,7 @@ public class UserDTO {
     private String userPassword;
     private String userIban;
     private List<EstateDTO> estateDTOS;
+    private String userType;
 
     public UserDTO() {
     }
@@ -23,6 +24,16 @@ public class UserDTO {
         this.userPassword = userPassword;
         this.userIban=userIban;
         this.estateDTOS=new ArrayList<>();
+    }
+
+    public UserDTO(int userid, String userEmail, String userName, String userPassword, String userIban, String userType) {
+        this.userid = userid;
+        this.userEmail = userEmail;
+        this.userName = userName;
+        this.userPassword = userPassword;
+        this.userIban=userIban;
+        this.estateDTOS=new ArrayList<>();
+        this.userType=userType;
     }
 
     public int getUserid() {
@@ -65,9 +76,6 @@ public class UserDTO {
         this.userIban = userIban;
     }
 
-    public static UserDTO getFromUser(User user){
-        return new UserDTO(user.getId(), user.getEmail(), user.getName(), user.getPassword(), user.getIban());
-    }
 
     public List<EstateDTO> getEstateDTOS() {
         return estateDTOS;
@@ -75,5 +83,17 @@ public class UserDTO {
 
     public void setEstateDTOS(List<EstateDTO> estateDTOS) {
         this.estateDTOS = estateDTOS;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public static UserDTO getFromUser(User user){
+        return new UserDTO(user.getId(), user.getEmail(), user.getName(), user.getPassword(), user.getIban(), user.getUser_type());
     }
 }

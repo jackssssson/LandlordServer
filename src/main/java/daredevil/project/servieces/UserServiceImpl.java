@@ -7,7 +7,6 @@ import daredevil.project.Exceptions.NoUserFountEsception;
 import daredevil.project.models.*;
 import daredevil.project.models.DTO.UserDTO;
 import daredevil.project.models.Models.BankAccountModel;
-import daredevil.project.models.Models.LoginModel;
 import daredevil.project.okhttp.HttpRequester;
 import daredevil.project.parser.Base.JsonParser;
 import daredevil.project.parser.GsonParser;
@@ -94,7 +93,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void createUserByUserDTOandType(UserDTO userDTO, String type) throws CantCreateUserException {
+    public void createUserByUserDTOAndType(UserDTO userDTO, String type) throws CantCreateUserException {
         User user = new User(userDTO.getUserName(), userDTO.getUserPassword(), userDTO.getUserEmail(), userDTO.getUserIban(), type);
         userRepository.createUser(user);
     }
@@ -132,5 +131,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.getUserByLoginModel(name, password);
     }
 
+    @Override
+    public String isUserFree(UserDTO userDTO){
+        return userRepository.isUserFree(userDTO);
+    }
 
 }
