@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -41,7 +42,7 @@ public class User {
     @JoinTable(name = "user_estate",
     joinColumns = @JoinColumn(name = "userID"),
     inverseJoinColumns = @JoinColumn(name = "EstateID"))
-    private List<Estates> estates;
+    private Set<Estates> estates;
 
 
     @OneToMany(mappedBy = "recipient", fetch = FetchType.EAGER)
@@ -52,7 +53,7 @@ public class User {
     @JsonIgnore
     private Set<Messages> senderMessage;
 
-    public User(String name, String password, String email, String iban, Set<UserRating> user_ratings, String user_type, List<Estates> estates, Set<Messages> recipientMessage, Set<Messages> senderMessage) {
+    public User(String name, String password, String email, String iban, HashSet<UserRating> user_ratings, String user_type, Set<Estates> estates, Set<Messages> recipientMessage, Set<Messages> senderMessage) {
         this.name = name;
         this.password = password;
         this.email = email;
@@ -64,7 +65,7 @@ public class User {
         this.senderMessage = senderMessage;
     }
 
-    public User(String name, String password, String email, String iban, String user_type, List<Estates> estates) {
+    public User(String name, String password, String email, String iban, String user_type, Set<Estates> estates) {
         this.name = name;
         this.password = password;
         this.email = email;
@@ -83,7 +84,7 @@ public class User {
         this.iban=iban;
         this.user_ratings = new HashSet<>();
         this.user_type = user_type;
-        this.estates = new ArrayList<>();
+        this.estates = new HashSet<>();
         this.recipientMessage = new HashSet<>();
         this.senderMessage = new HashSet<>();
     }
@@ -148,11 +149,11 @@ public class User {
         this.user_type = user_types;
     }
 
-    public List<Estates> getEstates() {
+    public Set<Estates> getEstates() {
         return estates;
     }
 
-    public void setEstates(List<Estates> estates) {
+    public void setEstates(Set<Estates> estates) {
         this.estates = estates;
     }
 
@@ -174,6 +175,18 @@ public class User {
 
     public void addEstate(Estates estates){
         this.estates.add(estates);
+    }
+
+    public String getUserRating(){
+        if(user_ratings.size()!=0) {
+            int sum = 0;
+            for (UserRating u : user_ratings) {
+                sum += u.getRating();
+            }
+            double result=(double)sum/user_ratings.size();
+            return String.valueOf(Math.round(result * 2) / 2.0);
+        }
+        return "";
     }
 }
 

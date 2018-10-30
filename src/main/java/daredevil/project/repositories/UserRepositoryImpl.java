@@ -33,7 +33,6 @@ public class UserRepositoryImpl implements UserRepository {
 
             session.save(user);
             session.getTransaction().commit();
-//            int b=5;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new CantCreateUserException();
@@ -47,6 +46,7 @@ public class UserRepositoryImpl implements UserRepository {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             result = session.get(User.class, id);
+//            result=session.createQuery("FROM User where id=:id", User.class).setParameter("id", id).getSingleResult();
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -69,8 +69,12 @@ public class UserRepositoryImpl implements UserRepository {
             userToChange.setPassword(user.getPassword());
             userToChange.setIban(user.getIban());
             userToChange.setEstates(user.getEstates());
+            userToChange.setUser_ratings(user.getUser_ratings());
+            userToChange.setUser_type(user.getUser_type());
+            userToChange.setSenderMessage(user.getSenderMessage());
+            userToChange.setRecipientMessage(user.getRecipientMessage());
 
-            session.getTransaction().commit();
+                session.getTransaction().commit();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -108,7 +112,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User getUserByName(String name) {
+    public User getUserByName(String name) throws CantCreateUserException {
         User result;
         try(Session session=sessionFactory.openSession()){
             session.beginTransaction();
@@ -117,7 +121,7 @@ public class UserRepositoryImpl implements UserRepository {
             System.out.println("User:"+result.getName());
         }catch (Exception e){
             System.out.println(e.getMessage());
-            throw new RuntimeException(e);
+            throw new CantCreateUserException();
         }
         return result;
 

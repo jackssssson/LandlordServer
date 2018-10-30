@@ -51,6 +51,14 @@ public class Estates {
         this.addresses = addresses;
     }
 
+    public Estates(float price, String estateName, String addresses){
+        this.price = price;
+        this.estateName = estateName;
+        this.occupied = false;
+        this.dueDate = null;
+        this.addresses = addresses;
+    }
+
     public Estates() {
     }
 
@@ -95,6 +103,13 @@ public class Estates {
     }
 
     public Date getDueDate() {
+        if(dueDate==null) {
+            try {
+                return getDateFromString("11-11-1999");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
         return dueDate;
     }
 
@@ -102,8 +117,11 @@ public class Estates {
         this.dueDate = dueDate;
     }
 
-    public Date getDateFromString(String date) throws ParseException {
-        SimpleDateFormat dt1 = new SimpleDateFormat("dd-mm-yyyyy");
+    public void setDate(String date) throws ParseException {
+        this.dueDate=getDateFromString(date);
+    }
+    private Date getDateFromString(String date) throws ParseException {
+        SimpleDateFormat dt1 = new SimpleDateFormat("dd-mm-yyyy");
         return dt1.parse(date);
 
     }

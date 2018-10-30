@@ -79,4 +79,18 @@ public class UserRatingRepositoryImpl implements UserRatingRepository {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public double getUserRatingByUserName(String name){
+        double result;
+        try(Session session=sessionFactory.openSession()){
+            session.beginTransaction();
+            result=(double)session.createQuery("select avg(rating) from UserRating where users in(from User where name=:nameStr)").setParameter("nameStr", name).getSingleResult();
+            session.getTransaction();
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+        return result;
+    }
 }

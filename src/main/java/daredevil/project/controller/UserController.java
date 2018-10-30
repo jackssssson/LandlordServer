@@ -102,6 +102,7 @@ public class UserController {
     public UserDTO getUser(@PathVariable String name, @PathVariable String password){
         UserDTO userDTO;
         try {
+            User user=service.getUserByLoginModel(name, password);
             userDTO=UserDTO.getFromUser(service.getUserByLoginModel(name, password));
         } catch (NoUserFountEsception noUserFountEsception) {
             System.out.println(noUserFountEsception.getMessage());

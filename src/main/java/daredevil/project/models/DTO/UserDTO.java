@@ -1,9 +1,12 @@
 package daredevil.project.models.DTO;
 
+import daredevil.project.models.Estates;
 import daredevil.project.models.User;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class UserDTO {
     private int userid;
@@ -11,8 +14,9 @@ public class UserDTO {
     private String userName;
     private String userPassword;
     private String userIban;
-    private List<EstateDTO> estateDTOS;
+    private Set<EstateDTO> estateDTOS;
     private String userType;
+    private String userRating;
 
     public UserDTO() {
     }
@@ -23,7 +27,8 @@ public class UserDTO {
         this.userName = userName;
         this.userPassword = userPassword;
         this.userIban=userIban;
-        this.estateDTOS=new ArrayList<>();
+        this.estateDTOS=new HashSet<>();
+        this.userRating="";
     }
 
     public UserDTO(int userid, String userEmail, String userName, String userPassword, String userIban, String userType) {
@@ -32,8 +37,31 @@ public class UserDTO {
         this.userName = userName;
         this.userPassword = userPassword;
         this.userIban=userIban;
-        this.estateDTOS=new ArrayList<>();
+        this.estateDTOS=new HashSet<>();
         this.userType=userType;
+        this.userRating="";
+    }
+
+    public UserDTO(int userid, String userEmail, String userName, String userPassword, String userIban,  String userType, String userRating) {
+        this.userid = userid;
+        this.userEmail = userEmail;
+        this.userName = userName;
+        this.userPassword = userPassword;
+        this.userIban = userIban;
+        this.estateDTOS = new HashSet<>();
+        this.userType = userType;
+        this.userRating = userRating;
+    }
+
+    public UserDTO(int userid, String userEmail, String userName, String userPassword, String userIban, Set<EstateDTO> estateDTOS, String userType, String userRating) {
+        this.userid = userid;
+        this.userEmail = userEmail;
+        this.userName = userName;
+        this.userPassword = userPassword;
+        this.userIban = userIban;
+        this.estateDTOS = estateDTOS;
+        this.userType = userType;
+        this.userRating = userRating;
     }
 
     public int getUserid() {
@@ -77,11 +105,11 @@ public class UserDTO {
     }
 
 
-    public List<EstateDTO> getEstateDTOS() {
+    public Set<EstateDTO> getEstateDTOS() {
         return estateDTOS;
     }
 
-    public void setEstateDTOS(List<EstateDTO> estateDTOS) {
+    public void setEstateDTOS(Set<EstateDTO> estateDTOS) {
         this.estateDTOS = estateDTOS;
     }
 
@@ -93,7 +121,24 @@ public class UserDTO {
         this.userType = userType;
     }
 
+    public String getUserRating() {
+        return userRating;
+    }
+
+    public void setUserRating(String userRating) {
+        this.userRating = userRating;
+    }
+
     public static UserDTO getFromUser(User user){
-        return new UserDTO(user.getId(), user.getEmail(), user.getName(), user.getPassword(), user.getIban(), user.getUser_type());
+        return new UserDTO(user.getId(), user.getEmail(), user.getName(), user.getPassword(), user.getIban(), getEstateDTOListFromEstateList(user.getEstates()), user.getUser_type(), user.getUserRating());
+    }
+
+    private static Set<EstateDTO> getEstateDTOListFromEstateList(Set<Estates> estates){
+        Set<EstateDTO> result=new HashSet<>();
+        for(Estates e: estates){
+            int b=5;
+            result.add(EstateDTO.getFromEstate(e));
+        }
+        return result;
     }
 }

@@ -14,7 +14,7 @@ public interface UserRepository {
     void updateUser(int id, User user);
     void deleteUser(int id);
     List<User> getUsersByType(String type);
-    User getUserByName(String name);
+    User getUserByName(String name) throws CantCreateUserException;
     User getUserByLoginModel(String name, String password) throws NoUserFountEsception;
     List<User> getUnoccupiedLandLords();
     public boolean checkUserLogin(String name, String password);

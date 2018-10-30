@@ -17,7 +17,7 @@ public interface UserService {
     void deleteUser(int id);
     void addEstate(Estates estates);
     List<User> getUsersByType(String type);
-    User getUserByName(String name);
+    User getUserByName(String name) throws CantCreateUserException;
     Estates getEstateByUserName(String user);
     boolean updateEstate(int id, Estates estates);
     //List<User> getUnoccupiedLandlords();

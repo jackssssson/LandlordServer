@@ -7,4 +7,5 @@ public interface UserRatingRepository {
     UserRating getUserRatingById(int id);
     void updateUserRating(int id, UserRating userRating);
     void deleteUserRating(int id);
+    double getUserRatingByUserName(String name);
 }

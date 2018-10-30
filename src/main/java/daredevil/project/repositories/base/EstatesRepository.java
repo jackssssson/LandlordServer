@@ -3,6 +3,8 @@ package daredevil.project.repositories.base;
 import daredevil.project.Exceptions.CantCreateEstateException;
 import daredevil.project.models.Estates;
 
+import java.util.List;
+
 public interface EstatesRepository {
     void createEstate(Estates estate) throws CantCreateEstateException;
     Estates getEstateById(int id);

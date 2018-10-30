@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByName(String name) {
+    public User getUserByName(String name) throws CantCreateUserException {
         return userRepository.getUserByName(name);
     }
 
@@ -135,5 +135,7 @@ public class UserServiceImpl implements UserService {
     public String isUserFree(UserDTO userDTO){
         return userRepository.isUserFree(userDTO);
     }
+
+
 
 }

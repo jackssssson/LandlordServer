@@ -2,6 +2,7 @@ package daredevil.project.servieces;
 
 import daredevil.project.Exceptions.CantCreateMessageContentException;
 import daredevil.project.Exceptions.CantCreateMessageException;
+import daredevil.project.Exceptions.CantCreateUserException;
 import daredevil.project.models.ContentType;
 import daredevil.project.models.DTO.MessagesDTO;
 import daredevil.project.models.MessageContent;
@@ -45,7 +46,7 @@ public class MessagesServiceImpl implements MessagesService {
     }
 
     @Override
-    public void postMessage(MessagesModel message, String messageType) throws CantCreateMessageException, CantCreateMessageContentException {
+    public void postMessage(MessagesModel message, String messageType) throws CantCreateMessageException, CantCreateMessageContentException, CantCreateUserException {
         Date date=new Date();
         ContentType contentType=contentTypeRepository.getContentTypeByName(messageType);
         Messages messages=new Messages(userRepository.getUserByName(message.getSenderName()), userRepository.getUserByName(message.getRecipientName()), date, contentType);

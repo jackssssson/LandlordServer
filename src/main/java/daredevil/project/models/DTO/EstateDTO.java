@@ -73,6 +73,9 @@ public class EstateDTO {
     }
 
     public static EstateDTO getFromEstate(Estates estates){
-        return new EstateDTO(estates.getId(), estates.getEstateName(), estates.isOccupied(), estates.getPrice(),  estates.getAddresses(), estates.getDueDate().toString());
+        String dueDate=estates.getDueDate().toString();
+        if(dueDate.equals("Mon Jan 11 00:11:00 EET 1999"))
+            dueDate="";
+        return new EstateDTO(estates.getId(), estates.getEstateName(), estates.isOccupied(), estates.getPrice(),  estates.getAddresses(), dueDate);
     }
 }

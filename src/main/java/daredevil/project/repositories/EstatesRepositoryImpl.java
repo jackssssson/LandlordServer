@@ -8,6 +8,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class EstatesRepositoryImpl implements EstatesRepository {
     private final SessionFactory sessionFactory;
@@ -63,6 +65,8 @@ public class EstatesRepositoryImpl implements EstatesRepository {
             estateToChange.setPrice(estate.getPrice());
             estateToChange.setEstateName(estate.getEstateName());
             estateToChange.setOccupied(estate.isOccupied());
+            estateToChange.setDueDate(estate.getDueDate());
+            estateToChange.setAddresses(estate.getAddresses());
 
             session.getTransaction().commit();
 
@@ -102,4 +106,5 @@ public class EstatesRepositoryImpl implements EstatesRepository {
 
         return result;
     }
+
 }
