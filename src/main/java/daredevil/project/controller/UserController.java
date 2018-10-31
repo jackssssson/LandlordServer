@@ -138,8 +138,9 @@ public class UserController {
         return "valid";
     }
 
-    @PostMapping("/rentEstate/{userID}/{estateID}")
+    @PutMapping("/rentEstate/{userID}/{estateID}")
     public String rentEstate(@PathVariable int userID, @PathVariable int estateID){
+        int b=6;
         try {
             service.rentEstate(userID, estateID);
         } catch (NoEstateFoundException e) {
