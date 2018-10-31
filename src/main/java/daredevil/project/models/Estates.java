@@ -35,12 +35,24 @@ public class Estates {
     @Column(name = "address", unique = true)
     private String addresses;
 
+    @ManyToOne
+    @JoinColumn(name = "tenant_userID")
+    @JsonIgnore
+    private User tenant;
+
+    @ManyToOne
+    @JoinColumn(name = "landlord_userID")
+    @JsonIgnore
+    private User landlord;
+
     public Estates(float price, String estateName, boolean occupied, Date dueDate, String addresses) {
         this.price = price;
         this.estateName = estateName;
         this.occupied = occupied;
         this.dueDate = dueDate;
         this.addresses = addresses;
+        this.tenant=null;
+        this.landlord=null;
     }
 
     public Estates(float price, String estateName,  String dueDate,  String addresses) throws ParseException {
@@ -49,6 +61,8 @@ public class Estates {
         this.occupied = false;
         this.dueDate = getDateFromString(dueDate);
         this.addresses = addresses;
+        this.tenant=null;
+        this.landlord=null;
     }
 
     public Estates(float price, String estateName, String addresses){
@@ -57,6 +71,17 @@ public class Estates {
         this.occupied = false;
         this.dueDate = null;
         this.addresses = addresses;
+        this.tenant=null;
+        this.landlord=null;
+    }
+
+    public Estates(float price, String estateName, boolean occupied, Date dueDate, String addresses, User tenant) {
+        this.price = price;
+        this.estateName = estateName;
+        this.occupied = occupied;
+        this.dueDate = dueDate;
+        this.addresses = addresses;
+        this.tenant = tenant;
     }
 
     public Estates() {
@@ -121,9 +146,26 @@ public class Estates {
         this.dueDate=getDateFromString(date);
     }
     private Date getDateFromString(String date) throws ParseException {
-        SimpleDateFormat dt1 = new SimpleDateFormat("dd-mm-yyyy");
+        SimpleDateFormat dt1 = new SimpleDateFormat("dd-MM-yyyy");
         return dt1.parse(date);
 
     }
 
+    public User getTenant() {
+        if(tenant==null)
+            return new User();
+        return tenant;
+    }
+
+    public void setTenant(User tenant) {
+        this.tenant = tenant;
+    }
+
+    public User getLandlord() {
+        return landlord;
+    }
+
+    public void setLandlord(User landlord) {
+        this.landlord = landlord;
+    }
 }

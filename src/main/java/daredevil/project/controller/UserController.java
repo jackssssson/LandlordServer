@@ -1,6 +1,7 @@
 package daredevil.project.controller;
 
 import daredevil.project.Exceptions.CantCreateUserException;
+import daredevil.project.Exceptions.NoEstateFoundException;
 import daredevil.project.Exceptions.NoUserFountEsception;
 import daredevil.project.models.Models.BankAccountModel;
 import daredevil.project.servieces.Base.UserService;
@@ -9,6 +10,8 @@ import daredevil.project.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,7 +27,11 @@ public class UserController {
 
     @GetMapping("/getUser/{id}")
     public UserDTO getUserById(@PathVariable int id) {
-        return UserDTO.getFromUser(service.getUserById(id));
+        try {
+            return UserDTO.getFromUser(service.getUserById(id));
+        } catch (NoUserFountEsception noUserFountEsception) {
+            throw new RuntimeException();
+        }
     }
 
     @PostMapping("/addLandlord")
@@ -42,13 +49,6 @@ public class UserController {
         }
 
     }
-
-//    @GetMapping("/getUnoccupiedLandlords")
-//    public List<UserDTO> getUnoccupiedLandlords() {
-//        List<UserDTO> result = new ArrayList<>();
-//        service.getUnoccupiedLandlords().stream().forEach(item -> result.add(UserDTO.getFromUser(item)));
-//        return result;
-//    }
 
     @PostMapping("/addTenant")
     public String createTenant(@RequestBody UserDTO userDTO) {
@@ -137,4 +137,17 @@ public class UserController {
             return "Invalid Email!";
         return "valid";
     }
+
+    @PostMapping("/rentEstate/{userID}/{estateID}")
+    public String rentEstate(@PathVariable int userID, @PathVariable int estateID){
+        try {
+            service.rentEstate(userID, estateID);
+        } catch (NoEstateFoundException e) {
+            return "No Estate found!";
+        } catch (NoUserFountEsception noUserFountEsception) {
+            return "No User found!";
+        }
+        return "Estate rented successfully";
+    }
+
 }

@@ -1,6 +1,7 @@
 package daredevil.project.repositories;
 
 import daredevil.project.Exceptions.CantCreateEstateException;
+import daredevil.project.Exceptions.NoEstateFoundException;
 import daredevil.project.models.Estates;
 import daredevil.project.repositories.base.EstatesRepository;
 import org.hibernate.Session;
@@ -36,7 +37,7 @@ public class EstatesRepositoryImpl implements EstatesRepository {
     }
 
     @Override
-    public Estates getEstateById(int id) {
+    public Estates getEstateById(int id) throws NoEstateFoundException {
         Estates result;
 
         try (
@@ -48,7 +49,7 @@ public class EstatesRepositoryImpl implements EstatesRepository {
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            throw new RuntimeException(e);
+            throw new NoEstateFoundException();
         }
 
         return result;
@@ -67,6 +68,8 @@ public class EstatesRepositoryImpl implements EstatesRepository {
             estateToChange.setOccupied(estate.isOccupied());
             estateToChange.setDueDate(estate.getDueDate());
             estateToChange.setAddresses(estate.getAddresses());
+            estateToChange.setTenant(estate.getTenant());
+            estateToChange.setLandlord(estate.getLandlord());
 
             session.getTransaction().commit();
 
@@ -106,5 +109,20 @@ public class EstatesRepositoryImpl implements EstatesRepository {
 
         return result;
     }
+
+    @Override
+    public List<Estates> getUnoccupiedEstates(){
+        List<Estates> result;
+        try(Session session=sessionFactory.openSession()){
+            session.beginTransaction();
+            result=session.createQuery("From Estates where occupied = false", Estates.class).list();
+            session.getTransaction();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+        return result;
+    }
+
 
 }

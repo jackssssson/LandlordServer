@@ -3,6 +3,7 @@ package daredevil.project.servieces;
 
 import daredevil.project.Exceptions.CantCreateEstateException;
 import daredevil.project.Exceptions.CantCreateUserException;
+import daredevil.project.Exceptions.NoEstateFoundException;
 import daredevil.project.Exceptions.NoUserFountEsception;
 import daredevil.project.models.*;
 import daredevil.project.models.DTO.UserDTO;
@@ -39,7 +40,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(int id) {
+    public User getUserById(int id) throws NoUserFountEsception {
         return userRepository.getUserById(id);
     }
 
@@ -86,10 +87,8 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
-//    @Override
-//    public List<User> getUnoccupiedLandlords() {
-//        return userRepository.getUnoccupiedLandLords();
-//    }
+
+
 
 
     @Override
@@ -136,6 +135,15 @@ public class UserServiceImpl implements UserService {
         return userRepository.isUserFree(userDTO);
     }
 
-
+    @Override
+    public void rentEstate(int userID, int estateID) throws NoEstateFoundException, NoUserFountEsception {
+        Estates estates=estatesRepository.getEstateById(estateID);
+        User user=userRepository.getUserById(userID);
+        user.getEstates().add(estates);
+        estates.setOccupied(true);
+        estates.setTenant(user);
+        estatesRepository.updateEstate(estateID, estates);
+        userRepository.updateUser(userID, user);
+    }
 
 }

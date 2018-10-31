@@ -18,13 +18,26 @@ public class UserRating {
     private int rating;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "userID", nullable = false)
+    @JoinColumn(name = "ratedID", nullable = false)
     @JsonIgnore
     private User users;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "raterID", nullable = false)
+    @JsonIgnore
+    private User rater;
+
+
 
     public UserRating(int rating, User users) {
         this.rating = rating;
         this.users = users;
+    }
+
+    public UserRating(int rating, User users, User rater) {
+        this.rating = rating;
+        this.users = users;
+        this.rater = rater;
     }
 
     public int getId() {
@@ -47,7 +60,16 @@ public class UserRating {
         return users;
     }
 
+    public User getRater() {
+        return rater;
+    }
+
+    public void setRater(User rater) {
+        this.rater = rater;
+    }
+
     public void setUsers(User users) {
         this.users = users;
+
     }
 }

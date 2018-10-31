@@ -15,9 +15,9 @@ public class UserRatingController {
         this.userRatingService = userRatingService;
     }
 
-    @PostMapping("/rateUser/{rating}/{userName}")
-    public String rateUser(@PathVariable int rating, @PathVariable String userName){
-        return userRatingService.rateUser(rating, userName);
+    @PutMapping("/rateUser/{rating}/{ratedName}/{raterName}")
+    public String rateUser(@PathVariable int rating, @PathVariable String ratedName, @PathVariable String raterName){
+        return userRatingService.rateUser(rating, ratedName, raterName);
     }
 
     @GetMapping("getUserRating/{name}")

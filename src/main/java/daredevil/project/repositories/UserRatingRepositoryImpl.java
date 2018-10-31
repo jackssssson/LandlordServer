@@ -59,6 +59,8 @@ public class UserRatingRepositoryImpl implements UserRatingRepository {
             UserRating userRatingToChange = session.get(UserRating.class, id);
 
             userRatingToChange.setRating(userRating.getRating());
+            userRatingToChange.setRater(userRating.getRater());
+            userRatingToChange.setUsers(userRating.getUsers());
 
             session.getTransaction().commit();
 

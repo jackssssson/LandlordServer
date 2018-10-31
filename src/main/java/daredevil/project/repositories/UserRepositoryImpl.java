@@ -40,7 +40,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User getUserById(int id) {
+    public User getUserById(int id) throws NoUserFountEsception {
         User result;
 
         try (Session session = sessionFactory.openSession()) {
@@ -50,7 +50,7 @@ public class UserRepositoryImpl implements UserRepository {
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            throw new RuntimeException(e);
+            throw new NoUserFountEsception();
         }
 
         return result;
@@ -128,21 +128,6 @@ public class UserRepositoryImpl implements UserRepository {
 
     }
 
-    @Override
-    public List<User> getUnoccupiedLandLords() {
-        List<User> result=new ArrayList<>();
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            result=session.createQuery("from User where user_type ='Landlord' and estates in(from Estates where occupied = false)", User.class).list();
-            session.getTransaction().commit();
-            System.out.println("Unoccupied LandLords.");
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-        return result;
-    }
 
     @Override
     public User getUserByLoginModel(String name, String password) {
