@@ -51,6 +51,7 @@ public class EstatesServiceImpl implements EstatesService {
         estatesRepository.updateEstate(estateID, estates);
     }
 
+
     @Override
     public Estates getEstateById(int id) throws NoEstateFoundException {
          Estates estates=estatesRepository.getEstateById(id);
@@ -62,7 +63,7 @@ public class EstatesServiceImpl implements EstatesService {
         Estates estates=estatesRepository.getEstateById(id);
         float floatOwed=Float.valueOf(owed);
         estates.setPrice(Float.valueOf(floatOwed));
-        estatesRepository.updateEstate(id, estates);
+        estatesRepository.updatePrice(id, estates);
 
     }
 

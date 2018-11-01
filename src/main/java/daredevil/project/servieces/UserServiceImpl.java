@@ -17,7 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -27,11 +31,11 @@ public class UserServiceImpl implements UserService {
     private HttpRequester httpRequester;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository,  EstatesRepository estatesRepository, HttpRequester httpRequester) {
+    public UserServiceImpl(UserRepository userRepository, EstatesRepository estatesRepository, HttpRequester httpRequester) {
         this.userRepository = userRepository;
         this.estatesRepository = estatesRepository;
-        this.jsonParser=new GsonParser<>(BankAccountModel.class, BankAccountModel[].class);
-        this.httpRequester=httpRequester;
+        this.jsonParser = new GsonParser<>(BankAccountModel.class, BankAccountModel[].class);
+        this.httpRequester = httpRequester;
     }
 
     @Override
@@ -88,9 +92,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
-
-
     @Override
     public void createUserByUserDTOAndType(UserDTO userDTO, String type) throws CantCreateUserException {
         User user = new User(userDTO.getUserName(), userDTO.getUserPassword(), userDTO.getUserEmail(), userDTO.getUserIban(), type);
@@ -104,7 +105,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createBankAccount(BankAccountModel bankAccountModel) {
-        String body=jsonParser.toJson(bankAccountModel);
+        String body = jsonParser.toJson(bankAccountModel);
         try {
             httpRequester.post("http://78.90.22.72:8080/landlordBank/addBankAccount", body);
         } catch (IOException e) {
@@ -113,11 +114,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public BankAccountModel getBankAccount(String iban){
-        BankAccountModel bankAccountModel=null;
+    public BankAccountModel getBankAccount(String iban) {
+        BankAccountModel bankAccountModel = null;
         try {
-            String json=httpRequester.get("http://78.90.22.72:8080/landlordBank/getBankAccount/"+iban);
-            bankAccountModel=jsonParser.fromJson(json);
+            String json = httpRequester.get("http://78.90.22.72:8080/landlordBank/getBankAccount/" + iban);
+            bankAccountModel = jsonParser.fromJson(json);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -131,19 +132,43 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String isUserFree(UserDTO userDTO){
+    public String isUserFree(UserDTO userDTO) {
         return userRepository.isUserFree(userDTO);
     }
 
     @Override
     public void rentEstate(int userID, int estateID) throws NoEstateFoundException, NoUserFountEsception {
-        Estates estates=estatesRepository.getEstateById(estateID);
-        User user=userRepository.getUserById(userID);
+        Estates estates = estatesRepository.getEstateById(estateID);
+        User user = userRepository.getUserById(userID);
         user.getEstates().add(estates);
         estates.setOccupied(true);
         estates.setTenant(user);
         estatesRepository.updateEstate(estateID, estates);
         userRepository.updateUser(userID, user);
+    }
+
+    @Override
+    public String getNotification(int id) {
+        String result = "";
+        try {
+            Set<Estates> estates = userRepository.getUserById(id).getEstates();
+            int count = 0;
+            Calendar c = Calendar.getInstance();
+            Date now = new Date();
+            c.add(now.getDay(), 5);
+            Date checkDate = c.getTime();
+            for (Estates e : estates) {
+                if (e.getDueDate().after(now) && e.getDueDate().before(checkDate))
+                    count++;
+            }
+            if (count == 0)
+                result = "no notification";
+            else
+                result = "You have " + count + " estates with due dates in less than 5 days";
+        } catch (NoUserFountEsception noUserFountEsception) {
+            noUserFountEsception.printStackTrace();
+        }
+        return result;
     }
 
 }

@@ -140,7 +140,6 @@ public class UserController {
 
     @PutMapping("/rentEstate/{userID}/{estateID}")
     public String rentEstate(@PathVariable int userID, @PathVariable int estateID){
-        int b=6;
         try {
             service.rentEstate(userID, estateID);
         } catch (NoEstateFoundException e) {
@@ -149,6 +148,11 @@ public class UserController {
             return "No User found!";
         }
         return "Estate rented successfully";
+    }
+
+    @GetMapping("/getNotification/{userID}")
+    public String getNotification(@PathVariable int userID){
+        return service.getNotification(userID);
     }
 
 }

@@ -80,6 +80,24 @@ public class EstatesRepositoryImpl implements EstatesRepository {
     }
 
     @Override
+    public void updatePrice(int id, Estates estate) {
+        try (
+                Session session = sessionFactory.openSession()
+        ) {
+            session.beginTransaction();
+            Estates estateToChange = session.get(Estates.class, id);
+
+            estateToChange.setPrice(estate.getPrice());
+
+            session.getTransaction().commit();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void deleteEstate(int id) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();

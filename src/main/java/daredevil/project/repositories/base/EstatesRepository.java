@@ -13,4 +13,5 @@ public interface EstatesRepository {
     void deleteEstate(int id);
     Estates getEstateByUserName(String name);
     List<Estates> getUnoccupiedEstates();
+    void updatePrice(int id, Estates estate);
 }

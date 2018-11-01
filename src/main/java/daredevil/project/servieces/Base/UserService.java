@@ -28,5 +28,5 @@ public interface UserService {
     boolean checkUserLogin(String name, String password);
     String isUserFree(UserDTO userDTO);
     void rentEstate(int userID, int estateID) throws NoEstateFoundException, NoUserFountEsception;
-
+    String getNotification(int id);
 }
