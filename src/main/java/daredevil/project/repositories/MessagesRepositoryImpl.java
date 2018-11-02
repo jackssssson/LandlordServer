@@ -126,7 +126,9 @@ public class MessagesRepositoryImpl implements MessagesRepository {
     public boolean checkForNewMessagess(int sender, int recipient){
         try(Session session=sessionFactory.openSession()){
             session.beginTransaction();
-            session.createQuery("from Messages where sender in(from User where id=:senderID) and recipient in(from User where id=:recipientID) and seen=false", Messages.class).setParameter("senderID", sender).setParameter("recipientID", recipient).list();
+            List<Messages> messages=session.createQuery("from Messages where sender in(from User where id=:senderID) and recipient in(from User where id=:recipientID) and seen=false", Messages.class).setParameter("senderID", sender).setParameter("recipientID", recipient).list();
+            if(messages.size()==0)
+                return false;
             return true;
         }catch (Exception e){
             return false;
@@ -148,7 +150,9 @@ public class MessagesRepositoryImpl implements MessagesRepository {
     public boolean checkForMessagess(int sender, int recipient) {
         try(Session session=sessionFactory.openSession()){
             session.beginTransaction();
-            session.createQuery("from Messages where sender in(from User where id=:senderID) and recipient in(from User where id=:recipientID)", Messages.class).setParameter("senderID", sender).setParameter("recipientID", recipient).list();
+            List<Messages> messages=session.createQuery("from Messages where sender in(from User where id=:senderID) and recipient in(from User where id=:recipientID)", Messages.class).setParameter("senderID", sender).setParameter("recipientID", recipient).list();
+            if(messages.size()==0)
+                return false;
             return true;
         }catch (Exception e){
             return false;

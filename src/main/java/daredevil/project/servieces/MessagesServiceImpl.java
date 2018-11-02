@@ -3,6 +3,7 @@ package daredevil.project.servieces;
 import daredevil.project.Exceptions.CantCreateMessageContentException;
 import daredevil.project.Exceptions.CantCreateMessageException;
 import daredevil.project.Exceptions.CantCreateUserException;
+import daredevil.project.Exceptions.NoUserFountEsception;
 import daredevil.project.models.DTO.MessagesDTO;
 import daredevil.project.models.Messages;
 import daredevil.project.models.Models.MessagesModel;
@@ -79,5 +80,12 @@ public class MessagesServiceImpl implements MessagesService {
             result.add(MessagesDTO.getFromMessages(m));
         }
         return result;
+    }
+
+    @Override
+    public MessagesDTO postTextMessage(String message, int sender, int recipient) throws NoUserFountEsception, CantCreateMessageException {
+        Messages messages=new Messages(message, userRepository.getUserById(sender), userRepository.getUserById(recipient), new Date(), false);
+        messagesRepository.postMesssage(messages);
+        return MessagesDTO.getFromMessages(messages);
     }
 }

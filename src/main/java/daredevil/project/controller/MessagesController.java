@@ -2,6 +2,7 @@ package daredevil.project.controller;
 
 import daredevil.project.Exceptions.CantCreateMessageContentException;
 import daredevil.project.Exceptions.CantCreateMessageException;
+import daredevil.project.Exceptions.NoUserFountEsception;
 import daredevil.project.models.DTO.MessagesDTO;
 import daredevil.project.models.Messages;
 import daredevil.project.models.Models.MessagesModel;
@@ -61,5 +62,14 @@ public class MessagesController {
     @GetMapping("/getMessages/{senderID}/{recipientID}")
     public List<MessagesDTO> getMessages(@PathVariable int senderID, @PathVariable int recipientID){
         return messagesService.getMessagess(senderID, recipientID);
+    }
+
+    @PutMapping("/postTextMessage/{message}/{senderID}/{recipientID}")
+    public MessagesDTO postTextmessage(@PathVariable String message, @PathVariable int senderID, @PathVariable int recipientID){
+        try {
+            return messagesService.postTextMessage(message, senderID, recipientID);
+        } catch (NoUserFountEsception | CantCreateMessageException noUserFountEsception) {
+            return null;
+        }
     }
 }
