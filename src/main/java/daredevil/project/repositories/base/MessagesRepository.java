@@ -1,6 +1,7 @@
 package daredevil.project.repositories.base;
 
 import daredevil.project.Exceptions.CantCreateMessageException;
+import daredevil.project.models.DTO.MessagesDTO;
 import daredevil.project.models.Messages;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface MessagesRepository {
     void postMesssage(Messages messages) throws CantCreateMessageException;
     boolean checkForNewMessagess(int sender, int recipient);
     List<Messages> getNewMessagess(int sender, int recipient);
+    boolean checkForMessagess(int sender, int recipient);
+    List<Messages> getMessagess(int sender, int recipient);
 }

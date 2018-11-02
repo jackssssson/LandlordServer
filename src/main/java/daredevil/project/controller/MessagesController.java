@@ -49,4 +49,17 @@ public class MessagesController {
     public List<MessagesDTO> getNewMessages(@PathVariable int senderID, @PathVariable int recipientID){
         return messagesService.getNewMessagess(senderID, recipientID);
     }
+
+    @GetMapping("/checkForMessages/{senderID}/{recipientID}")
+    public String checkForMessages(@PathVariable int senderID, @PathVariable int recipientID){
+        if(messagesService.checkForMessagess(senderID, recipientID)){
+            return "true";
+        }
+        return "false";
+    }
+
+    @GetMapping("/getMessages/{senderID}/{recipientID}")
+    public List<MessagesDTO> getMessages(@PathVariable int senderID, @PathVariable int recipientID){
+        return messagesService.getMessagess(senderID, recipientID);
+    }
 }

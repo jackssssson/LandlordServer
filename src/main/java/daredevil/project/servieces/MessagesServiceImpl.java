@@ -62,4 +62,22 @@ public class MessagesServiceImpl implements MessagesService {
         }
         return result;
     }
+
+    @Override
+    public boolean checkForMessagess(int sender, int recipient){
+        return messagesRepository.checkForMessagess(sender, recipient);
+    }
+    @Override
+    public List<MessagesDTO> getMessagess(int sender, int recipient){
+        List<Messages> messages=messagesRepository.getMessagess(sender, recipient);
+        for(Messages m: messages){
+            m.setSeen(true);
+            messagesRepository.updateMessages(m.getId(), m);
+        }
+        List<MessagesDTO> result=new ArrayList<>();
+        for(Messages m: messages){
+            result.add(MessagesDTO.getFromMessages(m));
+        }
+        return result;
+    }
 }
