@@ -14,4 +14,6 @@ public interface MessagesService {
     List<Messages> getMessagessByUser(String username);
     void postMessage(MessagesModel message);
     void postMessage(MessagesModel message, String messageType) throws CantCreateMessageException, CantCreateMessageContentException, CantCreateUserException;
+    boolean checkForNewMessagess(int sender, int recipient);
+    List<MessagesDTO> getNewMessagess(int sender, int recipient);
 }

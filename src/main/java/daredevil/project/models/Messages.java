@@ -36,22 +36,27 @@ public class Messages {
     @Column(name = "image_Message")
     private byte[] imageMessage;
 
-    public Messages(String textMessage, User sender, User recipient, Date timeStamp) {
+    @Column(name = "seen")
+    private boolean seen;
+
+    public Messages(String textMessage, User sender, User recipient, Date timeStamp, boolean seen) {
         this.textMessage = textMessage;
         this.sender = sender;
         this.recipient = recipient;
         this.timeStamp = timeStamp;
         this.messageType="Text message";
         this.imageMessage=null;
+        this.seen=seen;
     }
 
-    public Messages(byte[] imageMessage, User sender, User recipient, Date timeStamp) {
+    public Messages(byte[] imageMessage, User sender, User recipient, Date timeStamp, boolean seen) {
         this.imageMessage = imageMessage;
         this.sender = sender;
         this.recipient = recipient;
         this.timeStamp = timeStamp;
         this.messageType="Text message";
         this.textMessage=null;
+        this.seen=seen;
     }
 
     public Messages( User sender, User recipient, Date timeStamp, String messageType) {
@@ -121,5 +126,13 @@ public class Messages {
 
     public void setImageMessage(byte[] imageMessage) {
         this.imageMessage = imageMessage;
+    }
+
+    public boolean isSeen() {
+        return seen;
+    }
+
+    public void setSeen(boolean seen) {
+        this.seen = seen;
     }
 }

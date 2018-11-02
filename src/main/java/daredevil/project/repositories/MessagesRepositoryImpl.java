@@ -1,6 +1,7 @@
 package daredevil.project.repositories;
 
 import daredevil.project.Exceptions.CantCreateMessageException;
+import daredevil.project.Exceptions.NoNewMessagesEception;
 import daredevil.project.models.Messages;
 import daredevil.project.repositories.base.MessagesRepository;
 import org.hibernate.Session;
@@ -64,6 +65,11 @@ public class MessagesRepositoryImpl implements MessagesRepository {
             Messages messageToChange = session.get(Messages.class, id);
 
             messageToChange.setTimeStamp(messages.getTimeStamp());
+            messageToChange.setSeen(messages.isSeen());
+            messageToChange.setImageMessage(messages.getImageMessage());
+            messageToChange.setTextMessage(messages.getTextMessage());
+            messageToChange.setRecipient(messages.getRecipient());
+            messageToChange.setSender(messages.getSender());
 
             session.getTransaction().commit();
 
@@ -115,11 +121,25 @@ public class MessagesRepositoryImpl implements MessagesRepository {
         }
     }
 
-//    @Override
-//    public boolean checkForNewMessagess(int id){
-//        try(Session session=sessionFactory.openSession()){
-//            session.beginTransaction();
-//            Messages messages=session.createQuery("from Messages where ")
-//        }
-//    }
+    @Override
+    public boolean checkForNewMessagess(int sender, int recipient){
+        try(Session session=sessionFactory.openSession()){
+            session.beginTransaction();
+            session.createQuery("from Messages where sender in(from User where id=:senderID) and recipient in(from User where id=:recipientID) and seen=false", Messages.class).setParameter("senderID", sender).setParameter("recipientID", recipient).list();
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    @Override
+    public List<Messages> getNewMessagess(int sender, int recipient) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            List<Messages> messages = session.createQuery("from Messages where sender in(from User where id=:senderID) and recipient in(from User where id=:recipientID) and seen=false", Messages.class).setParameter("senderID", sender).setParameter("recipientID", recipient).list();
+            return messages;
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
 }

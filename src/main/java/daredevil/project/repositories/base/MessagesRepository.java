@@ -11,5 +11,7 @@ public interface MessagesRepository {
     void updateMessages(int id, Messages messages);
     void deleteMessages(int id);
     List<Messages> getMessageByUserName(String userName);
-    public void postMesssage(Messages messages) throws CantCreateMessageException;
+    void postMesssage(Messages messages) throws CantCreateMessageException;
+    boolean checkForNewMessagess(int sender, int recipient);
+    List<Messages> getNewMessagess(int sender, int recipient);
 }

@@ -1,5 +1,7 @@
 package daredevil.project.models.DTO;
 
+import daredevil.project.models.Messages;
+
 import java.util.Date;
 
 public class MessagesDTO {
@@ -84,5 +86,9 @@ public class MessagesDTO {
 
     public void setMessageType(String messageType) {
         this.messageType = messageType;
+    }
+
+    public static MessagesDTO getFromMessages(Messages messages){
+        return new MessagesDTO(messages.getTimeStamp(), UserDTO.getFromUser(messages.getSender()), UserDTO.getFromUser(messages.getRecipient()), messages.getTextMessage(), messages.getImageMessage(), messages.getMessageType());
     }
 }
