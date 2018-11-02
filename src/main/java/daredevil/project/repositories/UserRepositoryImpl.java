@@ -138,7 +138,6 @@ public class UserRepositoryImpl implements UserRepository {
                     .setParameter("userNameStr", name)
                     .setParameter("userPasswordStr", password).getSingleResult();
             session.getTransaction().commit();
-            System.out.println("User:"+result.getName());
         }catch (Exception e){
             System.out.println(e.getMessage());
             throw new RuntimeException();
@@ -153,6 +152,7 @@ public class UserRepositoryImpl implements UserRepository {
             session.createQuery("from User where name =:userNameStr and password =:userPasswordStr", User.class)
                     .setParameter("userNameStr", name)
                     .setParameter("userPasswordStr", password).getSingleResult();
+            session.getTransaction().commit();
             return true;
         }catch (Exception e){
             return false;

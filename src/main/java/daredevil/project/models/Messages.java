@@ -33,7 +33,7 @@ public class Messages {
     @Column(name = "text_message")
     private String textMessage;
 
-    @Column(name = "imageMessage")
+    @Column(name = "image_Message")
     private byte[] imageMessage;
 
     public Messages(String textMessage, User sender, User recipient, Date timeStamp) {
@@ -42,6 +42,7 @@ public class Messages {
         this.recipient = recipient;
         this.timeStamp = timeStamp;
         this.messageType="Text message";
+        this.imageMessage=null;
     }
 
     public Messages(byte[] imageMessage, User sender, User recipient, Date timeStamp) {
@@ -50,6 +51,7 @@ public class Messages {
         this.recipient = recipient;
         this.timeStamp = timeStamp;
         this.messageType="Text message";
+        this.textMessage=null;
     }
 
     public Messages( User sender, User recipient, Date timeStamp, String messageType) {
@@ -57,6 +59,8 @@ public class Messages {
         this.sender = sender;
         this.recipient = recipient;
         this.timeStamp = timeStamp;
+        this.imageMessage=null;
+        this.imageMessage=null;
     }
 
     public Messages() {

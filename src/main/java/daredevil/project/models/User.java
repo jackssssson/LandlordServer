@@ -65,6 +65,18 @@ public class User {
         this.senderMessage = senderMessage;
     }
 
+    public User(String name, String password, String email, String iban, Set<UserRating> user_ratings, String user_type, Set<Estates> estates) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.iban = iban;
+        this.user_ratings = user_ratings;
+        this.user_type = user_type;
+        this.estates = estates;
+        this.senderMessage=new HashSet<>();
+        this.recipientMessage=new HashSet<>();
+    }
+
     public User(String name, String password, String email, String iban, String user_type, Set<Estates> estates) {
         this.name = name;
         this.password = password;
