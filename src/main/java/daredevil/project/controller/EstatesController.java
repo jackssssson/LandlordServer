@@ -27,7 +27,8 @@ public class EstatesController {
 
     @PostMapping("/createEstate/{userName}")
     public String createEstate(@RequestBody EstateDTO estateDTO, @PathVariable String userName){
-        int b=5;
+        if(estateDTO.getAddress().equals(""))
+            return "Address can not be empty!";
         try {
             estatesService.createEstate(estateDTO, userName);
             return "Estate created.";
@@ -90,5 +91,6 @@ public class EstatesController {
         estatesService.getUnoccupiedEstates().stream().forEach(item -> result.add(EstateDTO.getFromEstate(item)));
         return result;
     }
+
 
 }

@@ -14,11 +14,6 @@ public class Messages {
     @Column()
     private int id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "contentID", nullable = false)
-    @JsonIgnore
-    private MessageContent message_content;
-
     @ManyToOne
     @JoinColumn(name = "sender_userID", nullable = false)
     @JsonIgnore
@@ -32,15 +27,33 @@ public class Messages {
     @Column(name = "time_stamp")
     private Date timeStamp;
 
-    public Messages(MessageContent message_content, User sender, User recipient, Date timeStamp) {
-        this.message_content = message_content;
+    @Column(name = "message_type", nullable = false)
+    private String messageType;
+
+    @Column(name = "text_message")
+    private String textMessage;
+
+    @Column(name = "imageMessage")
+    private byte[] imageMessage;
+
+    public Messages(String textMessage, User sender, User recipient, Date timeStamp) {
+        this.textMessage = textMessage;
         this.sender = sender;
         this.recipient = recipient;
         this.timeStamp = timeStamp;
+        this.messageType="Text message";
     }
 
-    public Messages( User sender, User recipient, Date timeStamp, ContentType contentType) {
-        this.message_content = new MessageContent(null, null, contentType, this);
+    public Messages(byte[] imageMessage, User sender, User recipient, Date timeStamp) {
+        this.imageMessage = imageMessage;
+        this.sender = sender;
+        this.recipient = recipient;
+        this.timeStamp = timeStamp;
+        this.messageType="Text message";
+    }
+
+    public Messages( User sender, User recipient, Date timeStamp, String messageType) {
+        this.messageType=messageType;
         this.sender = sender;
         this.recipient = recipient;
         this.timeStamp = timeStamp;
@@ -65,13 +78,6 @@ public class Messages {
         this.timeStamp = timeStamp;
     }
 
-    public MessageContent getMessage_content() {
-        return message_content;
-    }
-
-    public void setMessage_content(MessageContent message_content) {
-        this.message_content = message_content;
-    }
 
     public User getRecipient() {
         return recipient;
@@ -87,5 +93,29 @@ public class Messages {
 
     public void setSender(User sender) {
         this.sender = sender;
+    }
+
+    public String getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(String messageType) {
+        this.messageType = messageType;
+    }
+
+    public String getTextMessage() {
+        return textMessage;
+    }
+
+    public void setTextMessage(String textMessage) {
+        this.textMessage = textMessage;
+    }
+
+    public byte[] getImageMessage() {
+        return imageMessage;
+    }
+
+    public void setImageMessage(byte[] imageMessage) {
+        this.imageMessage = imageMessage;
     }
 }

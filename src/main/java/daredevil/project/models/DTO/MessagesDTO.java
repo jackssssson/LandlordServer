@@ -4,18 +4,37 @@ import java.util.Date;
 
 public class MessagesDTO {
     private Date timeStamp;
-    private MessagesContentDTO messagesContent;
     private UserDTO sender;
     private UserDTO recipient;
-
+    private String textMessage;
+    private byte[] imageMessage;
+    private String messageType;
     public MessagesDTO() {
     }
 
-    public MessagesDTO(Date timeStamp, MessagesContentDTO messagesContent, UserDTO sender, UserDTO recipient) {
+    public MessagesDTO(Date timeStamp, UserDTO sender, UserDTO recipient, String textMessage, byte[] imageMessage, String messageType) {
         this.timeStamp = timeStamp;
-        this.messagesContent = messagesContent;
         this.sender = sender;
         this.recipient = recipient;
+        this.textMessage = textMessage;
+        this.imageMessage = imageMessage;
+        this.messageType = messageType;
+    }
+
+    public MessagesDTO(Date timeStamp, String textMessage, UserDTO sender, UserDTO recipient) {
+        this.timeStamp = timeStamp;
+        this.sender = sender;
+        this.recipient = recipient;
+        this.textMessage=textMessage;
+        this.messageType="Text message";
+    }
+
+    public MessagesDTO(Date timeStamp, byte[] imageMessage, UserDTO sender, UserDTO recipient) {
+        this.timeStamp = timeStamp;
+        this.sender = sender;
+        this.recipient = recipient;
+        this.imageMessage=imageMessage;
+        this.messageType="Image message";
     }
 
     public Date getTimeStamp() {
@@ -26,13 +45,6 @@ public class MessagesDTO {
         this.timeStamp = timeStamp;
     }
 
-    public MessagesContentDTO getMessagesContent() {
-        return messagesContent;
-    }
-
-    public void setMessagesContent(MessagesContentDTO messagesContent) {
-        this.messagesContent = messagesContent;
-    }
 
     public UserDTO getSender() {
         return sender;
@@ -48,5 +60,29 @@ public class MessagesDTO {
 
     public void setRecipient(UserDTO recipient) {
         this.recipient = recipient;
+    }
+
+    public String getTextMessage() {
+        return textMessage;
+    }
+
+    public void setTextMessage(String textMessage) {
+        this.textMessage = textMessage;
+    }
+
+    public byte[] getImageMessage() {
+        return imageMessage;
+    }
+
+    public void setImageMessage(byte[] imageMessage) {
+        this.imageMessage = imageMessage;
+    }
+
+    public String getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(String messageType) {
+        this.messageType = messageType;
     }
 }

@@ -114,4 +114,12 @@ public class MessagesRepositoryImpl implements MessagesRepository {
             throw new CantCreateMessageException();
         }
     }
+
+//    @Override
+//    public boolean checkForNewMessagess(int id){
+//        try(Session session=sessionFactory.openSession()){
+//            session.beginTransaction();
+//            Messages messages=session.createQuery("from Messages where ")
+//        }
+//    }
 }
