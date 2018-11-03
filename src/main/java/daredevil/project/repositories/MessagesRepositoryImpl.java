@@ -163,7 +163,7 @@ public class MessagesRepositoryImpl implements MessagesRepository {
     public List<Messages> getMessagess(int sender, int recipient) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            List<Messages> messages = session.createQuery("from Messages where sender in(from User where id=:senderID) and recipient in(from User where id=:recipientID)", Messages.class).setParameter("senderID", sender).setParameter("recipientID", recipient).list();
+            List<Messages> messages = session.createQuery("from Messages where sender in(from User where id=:senderID or id=:recipientID) and recipient in(from User where id=:recipientID or id=:senderID) order by timeStamp", Messages.class).setParameter("senderID", sender).setParameter("recipientID", recipient).list();
             return messages;
         } catch (Exception e) {
             throw new RuntimeException();
