@@ -92,5 +92,16 @@ public class EstatesController {
         return result;
     }
 
+    @GetMapping("/getEstate/{id}")
+    public EstateDTO getEstateById(@PathVariable int id){
+        Estates estates;
+        try {
+            estates=estatesService.getEstateById(id);
+        } catch (NoEstateFoundException e) {
+            throw new RuntimeException();
+        }
+        return EstateDTO.getFromEstate(estates);
+    }
+
 
 }

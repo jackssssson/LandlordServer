@@ -28,4 +28,5 @@ public interface UserService {
     String isUserFree(UserDTO userDTO);
     void rentEstate(int userID, int estateID) throws NoEstateFoundException, NoUserFoundException;
     String getNotification(String name) throws CantCreateUserException;
+    String payRent(String value, int estateID) throws NoEstateFoundException;
 }

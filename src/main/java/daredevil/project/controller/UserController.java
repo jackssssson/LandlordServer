@@ -156,4 +156,13 @@ public class UserController {
         }
     }
 
+    @PutMapping("/payRent/{estateID}/{value}")
+    public String payRent(@PathVariable int estateID, @PathVariable String value){
+        try {
+            return service.payRent(value, estateID);
+        } catch (NoEstateFoundException e) {
+            return "No estate found.";
+        }
+    }
+
 }

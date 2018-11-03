@@ -170,4 +170,19 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
+    @Override
+    public String payRent(String value, int estateID) throws NoEstateFoundException {
+        float floatValue;
+        try {
+            floatValue = Float.valueOf(value);
+        }catch (Exception e){
+            return "Invalid value.";
+        }
+        Estates estates=estatesRepository.getEstateById(estateID);
+        estates.setPrice(estates.getPrice()-floatValue);
+        estatesRepository.updateEstate(estateID, estates);
+        return "You paid "+value;
+
+    }
+
 }

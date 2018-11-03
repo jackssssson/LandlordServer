@@ -177,4 +177,5 @@ public class UserRepositoryImpl implements UserRepository {
             throw new RuntimeException();
         }
     }
+
 }
