@@ -4,7 +4,7 @@ package daredevil.project.servieces;
 import daredevil.project.Exceptions.CantCreateEstateException;
 import daredevil.project.Exceptions.CantCreateUserException;
 import daredevil.project.Exceptions.NoEstateFoundException;
-import daredevil.project.Exceptions.NoUserFountEsception;
+import daredevil.project.Exceptions.NoUserFoundException;
 import daredevil.project.models.*;
 import daredevil.project.models.DTO.UserDTO;
 import daredevil.project.models.Models.BankAccountModel;
@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -44,7 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(int id) throws NoUserFountEsception {
+    public User getUserById(int id) throws NoUserFoundException {
         return userRepository.getUserById(id);
     }
 
@@ -127,7 +126,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByLoginModel(String name, String password) throws NoUserFountEsception {
+    public User getUserByLoginModel(String name, String password) throws NoUserFoundException {
         return userRepository.getUserByLoginModel(name, password);
     }
 
@@ -137,7 +136,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void rentEstate(int userID, int estateID) throws NoEstateFoundException, NoUserFountEsception {
+    public void rentEstate(int userID, int estateID) throws NoEstateFoundException, NoUserFoundException {
         Estates estates = estatesRepository.getEstateById(estateID);
         User user = userRepository.getUserById(userID);
         user.getEstates().add(estates);
@@ -148,10 +147,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getNotification(int id) {
-        String result = "";
+    public String getNotification(String name) throws CantCreateUserException {
+        String result;
         try {
-            Set<Estates> estates = userRepository.getUserById(id).getEstates();
+            Set<Estates> estates = userRepository.getUserByName(name).getEstates();
             int count = 0;
             Calendar c = Calendar.getInstance();
             Date now = new Date();
@@ -165,8 +164,8 @@ public class UserServiceImpl implements UserService {
                 result = "no notification";
             else
                 result = "You have " + count + " estates with due dates in less than 5 days";
-        } catch (NoUserFountEsception noUserFountEsception) {
-            noUserFountEsception.printStackTrace();
+        }catch (CantCreateUserException e) {
+            throw new CantCreateUserException();
         }
         return result;
     }

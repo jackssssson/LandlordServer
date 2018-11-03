@@ -1,10 +1,9 @@
 package daredevil.project.repositories;
 
 import daredevil.project.Exceptions.CantCreateUserException;
-import daredevil.project.Exceptions.NoUserFountEsception;
+import daredevil.project.Exceptions.NoUserFoundException;
 import daredevil.project.models.*;
 import daredevil.project.models.DTO.UserDTO;
-import daredevil.project.models.Models.LoginModel;
 import daredevil.project.repositories.base.UserRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -40,20 +39,21 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User getUserById(int id) throws NoUserFountEsception {
+    public User getUserById(int id) throws NoUserFoundException {
         User result;
-
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             result = session.get(User.class, id);
 //            result=session.createQuery("FROM User where id=:id", User.class).setParameter("id", id).getSingleResult();
             session.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new NoUserFountEsception();
+            throw new NoUserFoundException();
         }
 
-        return result;
+        if(result!=null)
+            return result;
+        else
+            throw new NoUserFoundException();
     }
 
     @Override

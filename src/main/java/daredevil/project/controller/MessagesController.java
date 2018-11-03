@@ -2,13 +2,11 @@ package daredevil.project.controller;
 
 import daredevil.project.Exceptions.CantCreateMessageContentException;
 import daredevil.project.Exceptions.CantCreateMessageException;
-import daredevil.project.Exceptions.NoUserFountEsception;
+import daredevil.project.Exceptions.NoUserFoundException;
 import daredevil.project.models.DTO.MessagesDTO;
-import daredevil.project.models.Messages;
 import daredevil.project.models.Models.MessagesModel;
 import daredevil.project.servieces.Base.MessagesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -68,7 +66,7 @@ public class MessagesController {
     public MessagesDTO postTextmessage(@PathVariable String message, @PathVariable int senderID, @PathVariable int recipientID){
         try {
             return messagesService.postTextMessage(message, senderID, recipientID);
-        } catch (NoUserFountEsception | CantCreateMessageException noUserFountEsception) {
+        } catch (NoUserFoundException | CantCreateMessageException noUserFoundException) {
             return null;
         }
     }
