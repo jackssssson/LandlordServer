@@ -1,8 +1,6 @@
 package daredevil.project.servieces;
 
-import daredevil.project.Exceptions.CantCreateMessageContentException;
 import daredevil.project.Exceptions.CantCreateMessageException;
-import daredevil.project.Exceptions.CantCreateUserException;
 import daredevil.project.Exceptions.NoUserFoundException;
 import daredevil.project.models.DTO.MessagesDTO;
 import daredevil.project.models.Messages;
@@ -33,18 +31,6 @@ public class MessagesServiceImpl implements MessagesService {
         return null;
     }
 
-    @Override
-    public void postMessage(MessagesModel message) {
-
-    }
-
-    @Override
-    public void postMessage(MessagesModel message, String messageType) throws CantCreateMessageException, CantCreateMessageContentException, CantCreateUserException {
-        Date date=new Date();
-        Messages messages=new Messages(message.getTextMessage(), userRepository.getUserByName(message.getSenderName()), userRepository.getUserByName(message.getRecipientName()), date, false);
-        messagesRepository.postMesssage(messages);
-
-    }
 
     @Override
     public boolean checkForNewMessagess(int sender, int recipient){
@@ -87,5 +73,14 @@ public class MessagesServiceImpl implements MessagesService {
         Messages messages=new Messages(message, userRepository.getUserById(sender), userRepository.getUserById(recipient), new Date(), false);
         messagesRepository.postMesssage(messages);
         return MessagesDTO.getFromMessages(messages);
+    }
+
+    @Override
+    public void postImageMessage(MessagesModel imageMessage) throws NoUserFoundException, CantCreateMessageException {
+        Messages messages=new Messages(imageMessage.getImageMessage()
+                , userRepository.getUserById(imageMessage.getSenderId())
+                , userRepository.getUserById(imageMessage.getRecipientId())
+                , new Date(), false);
+        messagesRepository.createMessages(messages);
     }
 }

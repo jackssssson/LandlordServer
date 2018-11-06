@@ -1,6 +1,8 @@
 package daredevil.project.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.type.BlobType;
+import org.hibernate.type.descriptor.sql.LobTypeMappings;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -33,7 +35,8 @@ public class Messages {
     @Column(name = "text_message")
     private String textMessage;
 
-    @Column(name = "image_Message")
+    @Lob
+    @Column(name = "image_Message", columnDefinition = "LongBLOB")
     private byte[] imageMessage;
 
     @Column(name = "seen")
@@ -54,7 +57,7 @@ public class Messages {
         this.sender = sender;
         this.recipient = recipient;
         this.timeStamp = timeStamp;
-        this.messageType="Text message";
+        this.messageType="Image message";
         this.textMessage=null;
         this.seen=seen;
     }

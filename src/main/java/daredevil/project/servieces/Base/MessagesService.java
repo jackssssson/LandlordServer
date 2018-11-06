@@ -12,11 +12,16 @@ import java.util.List;
 
 public interface MessagesService {
     List<Messages> getMessagessByUser(String username);
-    void postMessage(MessagesModel message);
-    void postMessage(MessagesModel message, String messageType) throws CantCreateMessageException, CantCreateMessageContentException, CantCreateUserException;
+
     boolean checkForNewMessagess(int sender, int recipient);
+
     List<MessagesDTO> getNewMessagess(int sender, int recipient);
+
     boolean checkForMessagess(int sender, int recipient);
+
     List<MessagesDTO> getMessagess(int sender, int recipient);
+
     MessagesDTO postTextMessage(String message, int sender, int recipient) throws NoUserFoundException, CantCreateMessageException;
+
+    void postImageMessage(MessagesModel imageMessage) throws NoUserFoundException, CantCreateMessageException;
 }

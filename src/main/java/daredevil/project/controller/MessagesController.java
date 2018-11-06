@@ -4,11 +4,14 @@ import daredevil.project.Exceptions.CantCreateMessageContentException;
 import daredevil.project.Exceptions.CantCreateMessageException;
 import daredevil.project.Exceptions.NoUserFoundException;
 import daredevil.project.models.DTO.MessagesDTO;
+import daredevil.project.models.Messages;
 import daredevil.project.models.Models.MessagesModel;
 import daredevil.project.servieces.Base.MessagesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.MessageDigest;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -19,21 +22,6 @@ public class MessagesController {
     @Autowired
     public MessagesController(MessagesService messagesService) {
         this.messagesService = messagesService;
-    }
-    @PostMapping("/postMessage")
-    public String postMessage(@RequestBody MessagesModel messagesModel){
-        String message="";
-        try {
-            messagesService.postMessage(messagesModel, "text");
-            message="Message created.";
-        } catch (CantCreateMessageException e) {
-            message="Cant create message";
-        } catch (CantCreateMessageContentException e) {
-            message="Cant create MessageContent";
-        }
-        finally {
-            return message;
-        }
     }
 
     @GetMapping("/checkForNewMessages/{senderID}/{recipientID}")
@@ -68,6 +56,17 @@ public class MessagesController {
             return messagesService.postTextMessage(message, senderID, recipientID);
         } catch (NoUserFoundException | CantCreateMessageException noUserFoundException) {
             return null;
+        }
+    }
+
+    @PostMapping("/postImage")
+    public void postImage(@RequestBody MessagesModel messagesModel){
+        try {
+            messagesService.postImageMessage(messagesModel);
+        } catch (NoUserFoundException e) {
+            e.printStackTrace();
+        } catch (CantCreateMessageException e) {
+            e.printStackTrace();
         }
     }
 }

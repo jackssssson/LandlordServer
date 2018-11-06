@@ -1,43 +1,40 @@
 package daredevil.project.models.Models;
 
-import java.util.Date;
-
 public class MessagesModel {
-    private String textMessage;
-    private String senderName;
-    private String recipientName;
+    private int senderId;
+    private int recipientId;
+    private byte[] imageMessage;
 
     public MessagesModel() {
     }
 
-    public MessagesModel( String textMessage, String senderName, String recipientName) {
-        this.textMessage = textMessage;
-        this.senderName = senderName;
-        this.recipientName = recipientName;
+    public MessagesModel(int senderId, int recipientId, byte[] imageMessage) {
+        this.senderId = senderId;
+        this.recipientId = recipientId;
+        this.imageMessage = imageMessage;
     }
 
-
-    public String getTextMessage() {
-        return textMessage;
+    public int getSenderId() {
+        return senderId;
     }
 
-    public void setTextMessage(String textMessage) {
-        this.textMessage = textMessage;
+    public void setSenderId(int senderId) {
+        this.senderId = senderId;
     }
 
-    public String getSenderName() {
-        return senderName;
+    public int getRecipientId() {
+        return recipientId;
     }
 
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
+    public void setRecipientId(int recipientId) {
+        this.recipientId = recipientId;
     }
 
-    public String getRecipientName() {
-        return recipientName;
+    public byte[] getImageMessage() {
+        return imageMessage;
     }
 
-    public void setRecipientName(String recipientName) {
-        this.recipientName = recipientName;
+    public void setImageMessage(byte[] imageMessage) {
+        this.imageMessage = imageMessage;
     }
 }
