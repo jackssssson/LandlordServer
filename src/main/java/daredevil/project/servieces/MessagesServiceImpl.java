@@ -1,10 +1,13 @@
 package daredevil.project.servieces;
 
 import daredevil.project.Exceptions.CantCreateMessageException;
+import daredevil.project.Exceptions.NoEstateFoundException;
 import daredevil.project.Exceptions.NoUserFoundException;
 import daredevil.project.models.DTO.MessagesDTO;
+import daredevil.project.models.Estates;
 import daredevil.project.models.Messages;
 import daredevil.project.models.Models.MessagesModel;
+import daredevil.project.repositories.base.EstatesRepository;
 import daredevil.project.repositories.base.MessagesRepository;
 import daredevil.project.repositories.base.UserRepository;
 import daredevil.project.servieces.Base.MessagesService;
@@ -19,11 +22,13 @@ import java.util.List;
 public class MessagesServiceImpl implements MessagesService {
     private UserRepository userRepository;
     private MessagesRepository messagesRepository;
+    private EstatesRepository estatesRepository;
 
     @Autowired
-    public MessagesServiceImpl(UserRepository userRepository, MessagesRepository messagesRepository) {
+    public MessagesServiceImpl(UserRepository userRepository, MessagesRepository messagesRepository, EstatesRepository estatesRepository) {
         this.userRepository = userRepository;
         this.messagesRepository = messagesRepository;
+        this.estatesRepository=estatesRepository;
     }
 
     @Override
@@ -52,7 +57,7 @@ public class MessagesServiceImpl implements MessagesService {
 
     @Override
     public boolean checkForMessagess(int sender, int recipient){
-        return messagesRepository.checkForMessagess(sender, recipient);
+        return messagesRepository.checkForMessages(sender, recipient);
     }
     @Override
     public List<MessagesDTO> getMessagess(int sender, int recipient){
@@ -82,5 +87,21 @@ public class MessagesServiceImpl implements MessagesService {
                 , userRepository.getUserById(imageMessage.getRecipientId())
                 , new Date(), false);
         messagesRepository.createMessages(messages);
+    }
+
+    @Override
+    public List<MessagesDTO> getEstateMessages(int estate) throws NoEstateFoundException {
+        List<MessagesDTO> result=new ArrayList<>();
+        Estates estates=estatesRepository.getEstateById(estate);
+        for(Messages m:messagesRepository.getEstateMessages(estates.getLandlord().getId(), estates.getTenant().getId(), estate)){
+            result.add(MessagesDTO.getFromMessages(m));
+        }
+        return result;
+    }
+
+    @Override
+    public boolean checkForEstateMessages(int estate) throws NoEstateFoundException {
+        Estates estates=estatesRepository.getEstateById(estate);
+        return messagesRepository.checkForEstateMessages(estates.getLandlord().getId(), estates.getTenant().getId(), estate);
     }
 }

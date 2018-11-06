@@ -1,9 +1,6 @@
 package daredevil.project.servieces.Base;
 
-import daredevil.project.Exceptions.CantCreateMessageContentException;
-import daredevil.project.Exceptions.CantCreateMessageException;
-import daredevil.project.Exceptions.CantCreateUserException;
-import daredevil.project.Exceptions.NoUserFoundException;
+import daredevil.project.Exceptions.*;
 import daredevil.project.models.DTO.MessagesDTO;
 import daredevil.project.models.Messages;
 import daredevil.project.models.Models.MessagesModel;
@@ -24,4 +21,9 @@ public interface MessagesService {
     MessagesDTO postTextMessage(String message, int sender, int recipient) throws NoUserFoundException, CantCreateMessageException;
 
     void postImageMessage(MessagesModel imageMessage) throws NoUserFoundException, CantCreateMessageException;
+
+    List<MessagesDTO> getEstateMessages(int estate) throws NoEstateFoundException;
+
+    boolean checkForEstateMessages(int estate) throws NoEstateFoundException;
+
 }

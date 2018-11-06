@@ -35,12 +35,28 @@ public class Messages {
     @Column(name = "text_message")
     private String textMessage;
 
+    @ManyToOne
+    @JoinColumn(name = "estate_id")
+    @JsonIgnore
+    private Estates estates;
+
     @Lob
     @Column(name = "image_Message", columnDefinition = "LongBLOB")
     private byte[] imageMessage;
 
     @Column(name = "seen")
     private boolean seen;
+
+    public Messages(User sender, User recipient, Date timeStamp, String textMessage, Estates estates, boolean seen) {
+        this.sender = sender;
+        this.recipient = recipient;
+        this.timeStamp = timeStamp;
+        this.messageType = "Estate message";
+        this.textMessage = textMessage;
+        this.estates = estates;
+        this.imageMessage = null;
+        this.seen = seen;
+    }
 
     public Messages(String textMessage, User sender, User recipient, Date timeStamp, boolean seen) {
         this.textMessage = textMessage;
@@ -50,6 +66,7 @@ public class Messages {
         this.messageType="Text message";
         this.imageMessage=null;
         this.seen=seen;
+        this.estates=null;
     }
 
     public Messages(byte[] imageMessage, User sender, User recipient, Date timeStamp, boolean seen) {
@@ -60,6 +77,7 @@ public class Messages {
         this.messageType="Image message";
         this.textMessage=null;
         this.seen=seen;
+        this.estates=null;
     }
 
     public Messages( User sender, User recipient, Date timeStamp, String messageType) {
@@ -137,5 +155,13 @@ public class Messages {
 
     public void setSeen(boolean seen) {
         this.seen = seen;
+    }
+
+    public Estates getEstates() {
+        return estates;
+    }
+
+    public void setEstates(Estates estates) {
+        this.estates = estates;
     }
 }

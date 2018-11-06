@@ -15,6 +15,8 @@ public interface MessagesRepository {
     void postMesssage(Messages messages) throws CantCreateMessageException;
     boolean checkForNewMessagess(int sender, int recipient);
     List<Messages> getNewMessagess(int sender, int recipient);
-    boolean checkForMessagess(int sender, int recipient);
+    boolean checkForMessages(int sender, int recipient);
     List<Messages> getMessagess(int sender, int recipient);
+    List<Messages> getEstateMessages(int sender, int recipient, int estate);
+    boolean checkForEstateMessages(int sender, int recipient, int estate);
 }

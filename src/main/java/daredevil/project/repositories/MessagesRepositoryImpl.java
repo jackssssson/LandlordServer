@@ -126,7 +126,7 @@ public class MessagesRepositoryImpl implements MessagesRepository {
     public boolean checkForNewMessagess(int sender, int recipient){
         try(Session session=sessionFactory.openSession()){
             session.beginTransaction();
-            List<Messages> messages=session.createQuery("from Messages where sender in(from User where id=:senderID) and recipient in(from User where id=:recipientID) and seen=false", Messages.class).setParameter("senderID", sender).setParameter("recipientID", recipient).list();
+            List<Messages> messages=session.createQuery("from Messages where sender in(from User where id=:senderID) and recipient in(from User where id=:recipientID) and seen=false and estates is NULL", Messages.class).setParameter("senderID", sender).setParameter("recipientID", recipient).list();
             if(messages.size()==0)
                 return false;
             return true;
@@ -139,7 +139,7 @@ public class MessagesRepositoryImpl implements MessagesRepository {
     public List<Messages> getNewMessagess(int sender, int recipient) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            List<Messages> messages = session.createQuery("from Messages where sender in(from User where id=:senderID) and recipient in(from User where id=:recipientID) and seen=false", Messages.class).setParameter("senderID", sender).setParameter("recipientID", recipient).list();
+            List<Messages> messages = session.createQuery("from Messages where sender in(from User where id=:senderID) and recipient in(from User where id=:recipientID) and seen=false and estates is NULL", Messages.class).setParameter("senderID", sender).setParameter("recipientID", recipient).list();
             return messages;
         } catch (Exception e) {
             throw new RuntimeException();
@@ -147,10 +147,10 @@ public class MessagesRepositoryImpl implements MessagesRepository {
     }
 
     @Override
-    public boolean checkForMessagess(int sender, int recipient) {
+    public boolean checkForMessages(int sender, int recipient) {
         try(Session session=sessionFactory.openSession()){
             session.beginTransaction();
-            List<Messages> messages=session.createQuery("from Messages where sender in(from User where id=:senderID) and recipient in(from User where id=:recipientID)", Messages.class).setParameter("senderID", sender).setParameter("recipientID", recipient).list();
+            List<Messages> messages=session.createQuery("from Messages where sender in(from User where id=:senderID) and recipient in(from User where id=:recipientID) and estates is NULL", Messages.class).setParameter("senderID", sender).setParameter("recipientID", recipient).list();
             if(messages.size()==0)
                 return false;
             return true;
@@ -163,10 +163,32 @@ public class MessagesRepositoryImpl implements MessagesRepository {
     public List<Messages> getMessagess(int sender, int recipient) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            List<Messages> messages = session.createQuery("from Messages where sender in(from User where id=:senderID or id=:recipientID) and recipient in(from User where id=:recipientID or id=:senderID) order by timeStamp", Messages.class).setParameter("senderID", sender).setParameter("recipientID", recipient).list();
+            List<Messages> messages = session.createQuery("from Messages where sender in(from User where id=:senderID or id=:recipientID) and recipient in(from User where id=:recipientID or id=:senderID) and estates is NULL order by timeStamp", Messages.class).setParameter("senderID", sender).setParameter("recipientID", recipient).list();
             return messages;
         } catch (Exception e) {
             throw new RuntimeException();
+        }
+    }
+
+    @Override
+    public List<Messages> getEstateMessages(int sender, int recipient, int estate){
+        try(Session session=sessionFactory.openSession()){
+            session.beginTransaction();
+            List<Messages> result=session.createQuery("from Messages where sender in(from User where id=:senderID or id=:recipientID) and recipient in(from User where id=:recipientID or id=:senderID) and estates =:estateID order by timeStamp", Messages.class).setParameter("recipientID", recipient).setParameter("senderID", sender).setParameter("estateID", estate).list();
+            return result;
+        } catch (Exception e){
+            throw new RuntimeException();
+        }
+    }
+
+    @Override
+    public boolean checkForEstateMessages(int sender, int recipient, int estate){
+        try(Session session=sessionFactory.openSession()){
+            session.beginTransaction();
+            List<Messages> result=session.createQuery("from Messages where sender in(from User where id=:senderID or id=:recipientID) and recipient in(from User where id=:recipientID or id=:senderID) and estates =:estateID order by timeStamp", Messages.class).setParameter("recipientID", recipient).setParameter("senderID", sender).setParameter("estateID", estate).list();
+            return true;
+        } catch (Exception e){
+            return false;
         }
     }
 }

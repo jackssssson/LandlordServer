@@ -45,6 +45,10 @@ public class Estates {
     @JsonIgnore
     private User landlord;
 
+    @OneToMany(mappedBy = "estates", fetch = FetchType.EAGER)
+    private Set<Messages> messages;
+
+
     public Estates(float price, String estateName, boolean occupied, Date dueDate, String addresses) {
         this.price = price;
         this.estateName = estateName;
@@ -82,6 +86,17 @@ public class Estates {
         this.dueDate = dueDate;
         this.addresses = addresses;
         this.tenant = tenant;
+    }
+
+    public Estates(float price, String estateName, boolean occupied, Date dueDate, String addresses, User tenant, User landlord, Set<Messages> messages) {
+        this.price = price;
+        this.estateName = estateName;
+        this.occupied = occupied;
+        this.dueDate = dueDate;
+        this.addresses = addresses;
+        this.tenant = tenant;
+        this.landlord = landlord;
+        this.messages = messages;
     }
 
     public Estates() {
@@ -167,5 +182,13 @@ public class Estates {
 
     public void setLandlord(User landlord) {
         this.landlord = landlord;
+    }
+
+    public Set<Messages> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Set<Messages> messages) {
+        this.messages = messages;
     }
 }

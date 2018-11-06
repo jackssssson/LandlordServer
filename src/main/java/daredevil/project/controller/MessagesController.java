@@ -2,6 +2,7 @@ package daredevil.project.controller;
 
 import daredevil.project.Exceptions.CantCreateMessageContentException;
 import daredevil.project.Exceptions.CantCreateMessageException;
+import daredevil.project.Exceptions.NoEstateFoundException;
 import daredevil.project.Exceptions.NoUserFoundException;
 import daredevil.project.models.DTO.MessagesDTO;
 import daredevil.project.models.Messages;
@@ -68,5 +69,21 @@ public class MessagesController {
         } catch (CantCreateMessageException e) {
             e.printStackTrace();
         }
+    }
+
+    @GetMapping("/checkForEstateMessages/{id}")
+    public String checkForEstateMessages(@PathVariable int id){
+        try {
+             if(messagesService.checkForEstateMessages(id))
+                 return "true";
+             return "false";
+        } catch (NoEstateFoundException e) {
+            return "No Estate Found";
+        }
+    }
+
+    @GetMapping("/getEstateMessages/{estateID}")
+    public List<MessagesDTO> getEstateMessages(@PathVariable int estateID) throws NoEstateFoundException {
+        return messagesService.getEstateMessages(estateID);
     }
 }
