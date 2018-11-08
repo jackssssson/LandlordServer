@@ -174,7 +174,7 @@ public class MessagesRepositoryImpl implements MessagesRepository {
     public List<Messages> getEstateMessages(int sender, int recipient, int estate){
         try(Session session=sessionFactory.openSession()){
             session.beginTransaction();
-            List<Messages> result=session.createQuery("from Messages where sender in(from User where id=:senderID or id=:recipientID) and recipient in(from User where id=:recipientID or id=:senderID) and estates =:estateID order by timeStamp", Messages.class).setParameter("recipientID", recipient).setParameter("senderID", sender).setParameter("estateID", estate).list();
+            List<Messages> result=session.createQuery("from Messages where sender in(from User where id=:senderID or id=:recipientID) and recipient in(from User where id=:recipientID or id=:senderID) and estates in (from Estates where id=:estateID) order by timeStamp", Messages.class).setParameter("recipientID", recipient).setParameter("senderID", sender).setParameter("estateID", estate).list();
             return result;
         } catch (Exception e){
             throw new RuntimeException();
@@ -185,7 +185,7 @@ public class MessagesRepositoryImpl implements MessagesRepository {
     public boolean checkForEstateMessages(int sender, int recipient, int estate){
         try(Session session=sessionFactory.openSession()){
             session.beginTransaction();
-            List<Messages> result=session.createQuery("from Messages where sender in(from User where id=:senderID or id=:recipientID) and recipient in(from User where id=:recipientID or id=:senderID) and estates =:estateID order by timeStamp", Messages.class).setParameter("recipientID", recipient).setParameter("senderID", sender).setParameter("estateID", estate).list();
+            List<Messages> result=session.createQuery("from Messages where sender in(from User where id=:senderID or id=:recipientID) and recipient in(from User where id=:recipientID or id=:senderID) and estates in (from Estates where id=:estateID) order by timeStamp", Messages.class).setParameter("recipientID", recipient).setParameter("senderID", sender).setParameter("estateID", estate).list();
             return true;
         } catch (Exception e){
             return false;

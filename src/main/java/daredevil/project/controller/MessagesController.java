@@ -86,4 +86,17 @@ public class MessagesController {
     public List<MessagesDTO> getEstateMessages(@PathVariable int estateID) throws NoEstateFoundException {
         return messagesService.getEstateMessages(estateID);
     }
+
+    @PutMapping("/postEstateMessage/{message}/{estateID}/{senderID}")
+    public String postEstateMessage(@PathVariable String message, @PathVariable int estateID, @PathVariable int senderID){
+        try {
+            return messagesService.postEstateMessage(message, estateID, senderID);
+        } catch (NoEstateFoundException e) {
+            return "No estate found";
+        } catch (NoUserFoundException e) {
+            return "No user found";
+        } catch (CantCreateMessageException e) {
+            return "Can't create message";
+        }
+    }
 }

@@ -26,4 +26,6 @@ public interface MessagesService {
 
     boolean checkForEstateMessages(int estate) throws NoEstateFoundException;
 
+    String postEstateMessage(String message, int estateID, int senderID) throws NoEstateFoundException, NoUserFoundException, CantCreateMessageException;
+
 }

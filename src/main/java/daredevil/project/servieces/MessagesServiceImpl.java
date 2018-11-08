@@ -6,6 +6,7 @@ import daredevil.project.Exceptions.NoUserFoundException;
 import daredevil.project.models.DTO.MessagesDTO;
 import daredevil.project.models.Estates;
 import daredevil.project.models.Messages;
+import daredevil.project.models.User;
 import daredevil.project.models.Models.MessagesModel;
 import daredevil.project.repositories.base.EstatesRepository;
 import daredevil.project.repositories.base.MessagesRepository;
@@ -103,5 +104,19 @@ public class MessagesServiceImpl implements MessagesService {
     public boolean checkForEstateMessages(int estate) throws NoEstateFoundException {
         Estates estates=estatesRepository.getEstateById(estate);
         return messagesRepository.checkForEstateMessages(estates.getLandlord().getId(), estates.getTenant().getId(), estate);
+    }
+
+    @Override
+    public String postEstateMessage(String message, int estateID, int senderID) throws NoEstateFoundException, NoUserFoundException, CantCreateMessageException {
+        Estates estates=estatesRepository.getEstateById(estateID);
+        User recipient;
+        if(estates.getTenant().getId()==senderID)
+            recipient=estates.getLandlord();
+        else{
+            recipient=estates.getTenant();
+        }
+        Messages messages=new Messages(userRepository.getUserById(senderID), recipient, new Date(), message, estates,true);
+        messagesRepository.postMesssage(messages);
+        return " \" "+message+"\" sent.";
     }
 }
