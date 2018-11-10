@@ -26,7 +26,8 @@ public class EstatesController {
     }
 
     @PostMapping("/createEstate/{userName}")
-    public String createEstate(@RequestBody EstateDTO estateDTO, @PathVariable String userName){
+    public String createEstate(@RequestBody EstateDTO estateDTO,
+                               @PathVariable String userName){
         if(estateDTO.getAddress().equals(""))
             return "Address can not be empty!";
         try {
@@ -40,7 +41,8 @@ public class EstatesController {
     }
 
     @PutMapping("/setDueDate/{dueDate}/{estateID}")
-    public String setDueDate(@PathVariable String dueDate, @PathVariable int estateID){
+    public String setDueDate(@PathVariable String dueDate,
+                             @PathVariable int estateID){
         if(dueDate.equals("error"))
             return "Enter date!";
         try {
@@ -72,7 +74,8 @@ public class EstatesController {
     }
 
     @PutMapping("/setOwed/{estateID}/{owed}")
-    public String setOwed(@PathVariable int estateID,@PathVariable String owed){
+    public String setOwed(@PathVariable int estateID,
+                          @PathVariable String owed){
         if(owed.equals("error"))
             return "Enter price!";
         try {
@@ -88,7 +91,9 @@ public class EstatesController {
     @GetMapping("/getUnoccupiedEstates")
     public List<EstateDTO> getUnoccupiedLandlords() {
         List<EstateDTO> result = new ArrayList<>();
-        estatesService.getUnoccupiedEstates().stream().forEach(item -> result.add(EstateDTO.getFromEstate(item)));
+        estatesService.getUnoccupiedEstates()
+                .stream()
+                .forEach(item -> result.add(EstateDTO.getFromEstate(item)));
         return result;
     }
 

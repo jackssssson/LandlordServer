@@ -9,7 +9,6 @@ import daredevil.project.models.User;
 import daredevil.project.repositories.base.EstatesRepository;
 import daredevil.project.repositories.base.UserRepository;
 import daredevil.project.servieces.Base.EstatesService;
-import org.omg.IOP.CodecPackage.FormatMismatch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +27,8 @@ public class EstatesServiceImpl implements EstatesService {
     }
 
     @Override
-    public void createEstate(EstateDTO estateDTO, String name) throws CantCreateEstateException, CantCreateUserException {
+    public void createEstate(EstateDTO estateDTO, String name)
+            throws CantCreateEstateException, CantCreateUserException {
         try {
             Estates estates=new Estates(estateDTO.getPrice(), estateDTO.getEstateName(), estateDTO.getAddress());
             User user=userRepository.getUserByName(name);
@@ -45,7 +45,8 @@ public class EstatesServiceImpl implements EstatesService {
     }
 
     @Override
-    public void setDueDate(String date, int estateID) throws ParseException, NoEstateFoundException {
+    public void setDueDate(String date, int estateID)
+            throws ParseException, NoEstateFoundException {
         Estates estates=estatesRepository.getEstateById(estateID);
         estates.setDate(date);
         estatesRepository.updateEstate(estateID, estates);

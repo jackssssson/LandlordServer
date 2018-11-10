@@ -2,13 +2,11 @@ package daredevil.project.servieces.Base;
 
 import daredevil.project.Exceptions.*;
 import daredevil.project.models.DTO.MessagesDTO;
-import daredevil.project.models.Messages;
 import daredevil.project.models.Models.MessagesModel;
 
 import java.util.List;
 
 public interface MessagesService {
-    List<Messages> getMessagessByUser(String username);
 
     boolean checkForNewMessagess(int sender, int recipient);
 

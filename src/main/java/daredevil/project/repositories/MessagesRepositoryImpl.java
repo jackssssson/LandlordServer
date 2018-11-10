@@ -93,24 +93,6 @@ public class MessagesRepositoryImpl implements MessagesRepository {
     }
 
     @Override
-    public List<Messages> getMessageByUserName(String userName) {
-        List<Messages> result=new ArrayList<>();
-        try (
-                Session session = sessionFactory.openSession()
-
-        ) {
-            session.beginTransaction();
-            result = session.createQuery("from Messages where sender in(from User where name = :userNameStr) ").setParameter("userNameStr", userName).list();
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
-        }
-
-        return result;
-    }
-
-    @Override
     public void postMesssage(Messages messages) throws CantCreateMessageException {
         try (Session session=sessionFactory.openSession()){
             session.beginTransaction();
@@ -150,7 +132,7 @@ public class MessagesRepositoryImpl implements MessagesRepository {
     public boolean checkForMessages(int sender, int recipient) {
         try(Session session=sessionFactory.openSession()){
             session.beginTransaction();
-            List<Messages> messages=session.createQuery("from Messages where sender in(from User where id=:senderID) and recipient in(from User where id=:recipientID) and estates is NULL", Messages.class).setParameter("senderID", sender).setParameter("recipientID", recipient).list();
+            List<Messages> messages=session.createQuery("from Messages where sender in(from User where id=:senderID or id=:recipientID) and recipient in(from User where id=:recipientID or id=:senderID) and estates is NULL", Messages.class).setParameter("senderID", sender).setParameter("recipientID", recipient).list();
             if(messages.size()==0)
                 return false;
             return true;

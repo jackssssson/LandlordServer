@@ -15,7 +15,8 @@ public class UserRatingServiceImpl implements UserRatingService {
     private UserRatingRepository userRatingRepository;
 
     @Autowired
-    public UserRatingServiceImpl(UserRepository userRepository, UserRatingRepository userRatingRepository) {
+    public UserRatingServiceImpl(UserRepository userRepository,
+                                 UserRatingRepository userRatingRepository) {
         this.userRepository = userRepository;
         this.userRatingRepository = userRatingRepository;
     }

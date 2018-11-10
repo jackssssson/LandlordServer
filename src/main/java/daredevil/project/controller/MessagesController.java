@@ -23,7 +23,8 @@ public class MessagesController {
     }
 
     @GetMapping("/checkForNewMessages/{senderID}/{recipientID}")
-    public String checkForNewMessages(@PathVariable int senderID, @PathVariable int recipientID){
+    public String checkForNewMessages(@PathVariable int senderID,
+                                      @PathVariable int recipientID){
         if(messagesService.checkForNewMessagess(senderID, recipientID)){
             return "true";
         }
@@ -31,12 +32,14 @@ public class MessagesController {
     }
 
     @GetMapping("/getNewMessages/{senderID}/{recipientID}")
-    public List<MessagesDTO> getNewMessages(@PathVariable int senderID, @PathVariable int recipientID){
+    public List<MessagesDTO> getNewMessages(@PathVariable int senderID,
+                                            @PathVariable int recipientID){
         return messagesService.getNewMessagess(senderID, recipientID);
     }
 
     @GetMapping("/checkForMessages/{senderID}/{recipientID}")
-    public String checkForMessages(@PathVariable int senderID, @PathVariable int recipientID){
+    public String checkForMessages(@PathVariable int senderID,
+                                   @PathVariable int recipientID){
         if(messagesService.checkForMessagess(senderID, recipientID)){
             return "true";
         }
@@ -44,12 +47,15 @@ public class MessagesController {
     }
 
     @GetMapping("/getMessages/{senderID}/{recipientID}")
-    public List<MessagesDTO> getMessages(@PathVariable int senderID, @PathVariable int recipientID){
+    public List<MessagesDTO> getMessages(@PathVariable int senderID,
+                                         @PathVariable int recipientID){
         return messagesService.getMessagess(senderID, recipientID);
     }
 
     @PutMapping("/postTextMessage/{message}/{senderID}/{recipientID}")
-    public MessagesDTO postTextmessage(@PathVariable String message, @PathVariable int senderID, @PathVariable int recipientID){
+    public MessagesDTO postTextmessage(@PathVariable String message,
+                                       @PathVariable int senderID,
+                                       @PathVariable int recipientID){
         try {
             return messagesService.postTextMessage(message, senderID, recipientID);
         } catch (NoUserFoundException | CantCreateMessageException noUserFoundException) {
@@ -61,12 +67,10 @@ public class MessagesController {
     public void postImage(@RequestBody MessagesModel messagesModel){
         try {
             messagesService.postImageMessage(messagesModel);
-        } catch (NoUserFoundException e) {
+        } catch (NoUserFoundException |
+                CantCreateMessageException |
+                NoNewMessagesEception e) {
             e.printStackTrace();
-        } catch (CantCreateMessageException e) {
-            e.printStackTrace();
-        } catch (NoNewMessagesEception noNewMessagesEception) {
-            noNewMessagesEception.printStackTrace();
         }
     }
 
@@ -87,7 +91,9 @@ public class MessagesController {
     }
 
     @PutMapping("/postEstateMessage/{message}/{estateID}/{senderID}")
-    public String postEstateMessage(@PathVariable String message, @PathVariable int estateID, @PathVariable int senderID){
+    public String postEstateMessage(@PathVariable String message,
+                                    @PathVariable int estateID,
+                                    @PathVariable int senderID){
         try {
             return messagesService.postEstateMessage(message, estateID, senderID);
         } catch (NoEstateFoundException e) {

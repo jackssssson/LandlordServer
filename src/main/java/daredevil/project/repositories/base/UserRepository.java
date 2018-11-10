@@ -15,6 +15,5 @@ public interface UserRepository {
     List<User> getUsersByType(String type);
     User getUserByName(String name) throws CantCreateUserException;
     User getUserByLoginModel(String name, String password) throws NoUserFoundException;
-    boolean checkUserLogin(String name, String password);
     String isUserFree(UserDTO userDTO);
 }

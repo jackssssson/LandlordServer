@@ -134,29 +134,14 @@ public class UserRepositoryImpl implements UserRepository {
         User result;
         try(Session session=sessionFactory.openSession()){
             session.beginTransaction();
-            result=session.createQuery("from User where name =:userNameStr and password =:userPasswordStr", User.class)
-                    .setParameter("userNameStr", name)
-                    .setParameter("userPasswordStr", password).getSingleResult();
+            result=session.createQuery("from User where name =:userNameStr", User.class)
+                    .setParameter("userNameStr", name).getSingleResult();
             session.getTransaction().commit();
         }catch (Exception e){
             System.out.println(e.getMessage());
             throw new RuntimeException();
         }
         return result;
-    }
-
-    @Override
-    public boolean checkUserLogin(String name, String password){
-        try(Session session=sessionFactory.openSession()){
-            session.beginTransaction();
-            session.createQuery("from User where name =:userNameStr and password =:userPasswordStr", User.class)
-                    .setParameter("userNameStr", name)
-                    .setParameter("userPasswordStr", password).getSingleResult();
-            session.getTransaction().commit();
-            return true;
-        }catch (Exception e){
-            return false;
-        }
     }
 
     @Override

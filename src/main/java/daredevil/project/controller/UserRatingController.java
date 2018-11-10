@@ -16,7 +16,8 @@ public class UserRatingController {
     }
 
     @PutMapping("/rateUser/{rating}/{ratedName}/{raterName}")
-    public String rateUser(@PathVariable int rating, @PathVariable String ratedName, @PathVariable String raterName){
+    public String rateUser(@PathVariable int rating,
+                           @PathVariable String ratedName, @PathVariable String raterName){
         return userRatingService.rateUser(rating, ratedName, raterName);
     }
 
