@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public class MessagesDTO {
-    private Date timeStamp;
+    private String timeStamp;
     private UserDTO sender;
     private UserDTO recipient;
     private String textMessage;
@@ -17,7 +17,7 @@ public class MessagesDTO {
     }
 
     public MessagesDTO(Date timeStamp, UserDTO sender, UserDTO recipient, String textMessage, byte[] imageMessage, String messageType) {
-        this.timeStamp = timeStamp;
+        setTimeStamp(timeStamp);
         this.sender = sender;
         this.recipient = recipient;
         this.textMessage = textMessage;
@@ -26,7 +26,7 @@ public class MessagesDTO {
     }
 
     public MessagesDTO(Date timeStamp, String textMessage, UserDTO sender, UserDTO recipient) {
-        this.timeStamp = timeStamp;
+        setTimeStamp(timeStamp);
         this.sender = sender;
         this.recipient = recipient;
         this.textMessage=textMessage;
@@ -34,19 +34,19 @@ public class MessagesDTO {
     }
 
     public MessagesDTO(Date timeStamp, byte[] imageMessage, UserDTO sender, UserDTO recipient) {
-        this.timeStamp = timeStamp;
+        setTimeStamp(timeStamp);
         this.sender = sender;
         this.recipient = recipient;
         this.imageMessage=imageMessage;
         this.messageType="Image message";
     }
 
-    public Date getTimeStamp() {
+    public String getTimeStamp() {
         return timeStamp;
     }
 
     public void setTimeStamp(Date timeStamp) {
-        this.timeStamp = timeStamp;
+        this.timeStamp = timeStamp.toString().substring(0, 10).replace("-", ".")+" "+timeStamp.toString().substring(11, 19);
     }
 
 
