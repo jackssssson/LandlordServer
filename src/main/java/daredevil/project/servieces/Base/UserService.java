@@ -4,7 +4,6 @@ import daredevil.project.Exceptions.CantCreateUserException;
 import daredevil.project.Exceptions.NoEstateFoundException;
 import daredevil.project.Exceptions.NoUserFoundException;
 import daredevil.project.models.DTO.UserDTO;
-import daredevil.project.models.Models.BankAccountModel;
 import daredevil.project.models.Estates;
 import daredevil.project.models.User;
 
@@ -20,8 +19,6 @@ public interface UserService {
     User getUserByName(String name) throws CantCreateUserException;
     Estates getEstateByUserName(String user);
     boolean updateEstate(int id, Estates estates);
-    void createBankAccount(BankAccountModel bankAccountModel);
-     BankAccountModel getBankAccount(String iban);
     User getUserByLoginModel(String name, String password) throws NoUserFoundException;
     void createUserByUserDTOAndType(UserDTO userDTO, String type) throws CantCreateUserException;
     boolean checkUserLogin(String name, String password);

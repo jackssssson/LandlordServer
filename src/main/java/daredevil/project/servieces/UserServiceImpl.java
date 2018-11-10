@@ -7,7 +7,6 @@ import daredevil.project.Exceptions.NoEstateFoundException;
 import daredevil.project.Exceptions.NoUserFoundException;
 import daredevil.project.models.*;
 import daredevil.project.models.DTO.UserDTO;
-import daredevil.project.models.Models.BankAccountModel;
 import daredevil.project.okhttp.HttpRequester;
 import daredevil.project.parser.Base.JsonParser;
 import daredevil.project.parser.GsonParser;
@@ -26,14 +25,12 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private EstatesRepository estatesRepository;
-    private JsonParser<BankAccountModel> jsonParser;
     private HttpRequester httpRequester;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, EstatesRepository estatesRepository, HttpRequester httpRequester) {
         this.userRepository = userRepository;
         this.estatesRepository = estatesRepository;
-        this.jsonParser = new GsonParser<>(BankAccountModel.class, BankAccountModel[].class);
         this.httpRequester = httpRequester;
     }
 
@@ -102,28 +99,6 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
-    @Override
-    public void createBankAccount(BankAccountModel bankAccountModel) {
-        String body = jsonParser.toJson(bankAccountModel);
-        try {
-            httpRequester.post("http://78.90.22.72:8080/landlordBank/addBankAccount", body);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public BankAccountModel getBankAccount(String iban) {
-        BankAccountModel bankAccountModel = null;
-        try {
-            String json = httpRequester.get("http://78.90.22.72:8080/landlordBank/getBankAccount/" + iban);
-            bankAccountModel = jsonParser.fromJson(json);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bankAccountModel;
-    }
 
     @Override
     public User getUserByLoginModel(String name, String password) throws NoUserFoundException {
