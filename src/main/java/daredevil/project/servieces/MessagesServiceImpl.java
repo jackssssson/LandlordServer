@@ -2,6 +2,7 @@ package daredevil.project.servieces;
 
 import daredevil.project.Exceptions.CantCreateMessageException;
 import daredevil.project.Exceptions.NoEstateFoundException;
+import daredevil.project.Exceptions.NoNewMessagesEception;
 import daredevil.project.Exceptions.NoUserFoundException;
 import daredevil.project.models.DTO.MessagesDTO;
 import daredevil.project.models.Estates;
@@ -87,7 +88,14 @@ public class MessagesServiceImpl implements MessagesService {
                 , userRepository.getUserById(imageMessage.getSenderId())
                 , userRepository.getUserById(imageMessage.getRecipientId())
                 , new Date(), false);
-        messagesRepository.createMessages(messages);
+        Messages updateThis= null;
+        try {
+            updateThis = messagesRepository.getImageMessageForSession(imageMessage.getRecipientId(), imageMessage.getSenderId());
+            messagesRepository.updateMessages(updateThis.getId(), messages);
+        } catch (NoNewMessagesEception noNewMessagesEception) {
+            messagesRepository.postMesssage(messages);
+        }
+
     }
 
     @Override

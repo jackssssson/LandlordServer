@@ -191,4 +191,16 @@ public class MessagesRepositoryImpl implements MessagesRepository {
             return false;
         }
     }
+
+    @Override
+    public Messages getImageMessageForSession(int recipient, int sender) throws NoNewMessagesEception {
+        try(Session session=sessionFactory.openSession()){
+            session.beginTransaction();
+            Messages messages=session.createQuery("from Messages where sender in(from User where id=:senderID or id=:recipientID) and recipient in(from User where id=:recipientID or id=:senderID) and estates is NULL and messageType like 'Image message'", Messages.class).setParameter("senderID", sender).setParameter("recipientID", recipient).getSingleResult();
+            session.getTransaction().commit();
+            return messages;
+        } catch (Exception e){
+            throw  new NoNewMessagesEception();
+        }
+    }
 }

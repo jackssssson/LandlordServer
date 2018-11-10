@@ -1,18 +1,15 @@
 package daredevil.project.controller;
 
-import daredevil.project.Exceptions.CantCreateMessageContentException;
 import daredevil.project.Exceptions.CantCreateMessageException;
 import daredevil.project.Exceptions.NoEstateFoundException;
+import daredevil.project.Exceptions.NoNewMessagesEception;
 import daredevil.project.Exceptions.NoUserFoundException;
 import daredevil.project.models.DTO.MessagesDTO;
-import daredevil.project.models.Messages;
 import daredevil.project.models.Models.MessagesModel;
 import daredevil.project.servieces.Base.MessagesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.MessageDigest;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -68,6 +65,8 @@ public class MessagesController {
             e.printStackTrace();
         } catch (CantCreateMessageException e) {
             e.printStackTrace();
+        } catch (NoNewMessagesEception noNewMessagesEception) {
+            noNewMessagesEception.printStackTrace();
         }
     }
 

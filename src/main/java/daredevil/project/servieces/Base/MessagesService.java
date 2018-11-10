@@ -20,7 +20,7 @@ public interface MessagesService {
 
     MessagesDTO postTextMessage(String message, int sender, int recipient) throws NoUserFoundException, CantCreateMessageException;
 
-    void postImageMessage(MessagesModel imageMessage) throws NoUserFoundException, CantCreateMessageException;
+    void postImageMessage(MessagesModel imageMessage) throws NoUserFoundException, CantCreateMessageException, NoNewMessagesEception;
 
     List<MessagesDTO> getEstateMessages(int estate) throws NoEstateFoundException;
 

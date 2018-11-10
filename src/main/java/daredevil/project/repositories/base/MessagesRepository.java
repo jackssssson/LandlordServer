@@ -1,6 +1,7 @@
 package daredevil.project.repositories.base;
 
 import daredevil.project.Exceptions.CantCreateMessageException;
+import daredevil.project.Exceptions.NoNewMessagesEception;
 import daredevil.project.models.DTO.MessagesDTO;
 import daredevil.project.models.Messages;
 
@@ -19,4 +20,5 @@ public interface MessagesRepository {
     List<Messages> getMessagess(int sender, int recipient);
     List<Messages> getEstateMessages(int sender, int recipient, int estate);
     boolean checkForEstateMessages(int sender, int recipient, int estate);
+    Messages getImageMessageForSession(int recipient, int sender) throws NoNewMessagesEception;
 }
