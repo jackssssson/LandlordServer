@@ -4,7 +4,6 @@ import daredevil.project.models.Estates;
 import daredevil.project.models.User;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 

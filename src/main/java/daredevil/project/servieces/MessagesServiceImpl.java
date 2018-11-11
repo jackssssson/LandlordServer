@@ -36,12 +36,12 @@ public class MessagesServiceImpl implements MessagesService {
     }
 
     @Override
-    public boolean checkForNewMessagess(int sender, int recipient) {
+    public boolean checkForNewMessages(int sender, int recipient) {
         return messagesRepository.checkForNewMessagess(sender, recipient);
     }
 
     @Override
-    public List<MessagesDTO> getNewMessagess(int sender, int recipient) {
+    public List<MessagesDTO> getNewMessages(int sender, int recipient) {
         List<Messages> messages = messagesRepository.getNewMessagess(sender, recipient);
         for (Messages m : messages) {
             m.setSeen(true);
@@ -55,12 +55,12 @@ public class MessagesServiceImpl implements MessagesService {
     }
 
     @Override
-    public boolean checkForMessagess(int sender, int recipient) {
+    public boolean checkForMessages(int sender, int recipient) {
         return messagesRepository.checkForMessages(sender, recipient);
     }
 
     @Override
-    public List<MessagesDTO> getMessagess(int sender, int recipient) {
+    public List<MessagesDTO> getMessages(int sender, int recipient) {
         List<Messages> messages = messagesRepository.getMessagess(sender, recipient);
         for (Messages m : messages) {
             m.setSeen(true);

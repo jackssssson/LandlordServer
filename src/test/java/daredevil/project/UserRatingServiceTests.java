@@ -3,7 +3,6 @@ package daredevil.project;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import daredevil.project.Exceptions.CantCreateUserException;
 import daredevil.project.models.User;
-import daredevil.project.models.UserRating;
 import daredevil.project.repositories.base.UserRatingRepository;
 import daredevil.project.repositories.base.UserRepository;
 import daredevil.project.servieces.UserRatingServiceImpl;
@@ -17,7 +16,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 

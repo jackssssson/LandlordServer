@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface MessagesService {
 
-    boolean checkForNewMessagess(int sender, int recipient);
+    boolean checkForNewMessages(int sender, int recipient);
 
-    List<MessagesDTO> getNewMessagess(int sender, int recipient);
+    List<MessagesDTO> getNewMessages(int sender, int recipient);
 
-    boolean checkForMessagess(int sender, int recipient);
+    boolean checkForMessages(int sender, int recipient);
 
-    List<MessagesDTO> getMessagess(int sender, int recipient);
+    List<MessagesDTO> getMessages(int sender, int recipient);
 
     MessagesDTO postTextMessage(String message, int sender, int recipient) throws NoUserFoundException, CantCreateMessageException;
 

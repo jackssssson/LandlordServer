@@ -20,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import java.text.ParseException;
 import java.util.*;
 
+import static daredevil.project.EstatesServiceTests.initiateDefaultEstates;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -35,31 +36,61 @@ public class UserServiceTests {
     UserServiceImpl userService;
 
     List<User> users = new ArrayList<>();
-    User user1;
-    User user2;
-    User user3;
-    User user4;
-    User user5;
-
+    User user1=new User();
+    User user2=new User();
+    User user3=new User();
+    User user4=new User();
+    User user5=new User();
     {
-        users.add(user1 = new User("Denis", "123456", "asdfg@abv.bg", "someIban", "Landlord"));
-        users.add(user2 = new User("Jivko", "123458", "qwerty@abv.bg", "someIban2", "Tenant"));
-        users.add(user3 = new User("Aleks", "123468", "gfdsa@abv.bg", "someIban3", "Landlord"));
-        users.add(user4 = new User("Georgi", "123686", "ytrewq@abv.bg", "someIban4", "Tenant"));
-        users.add(user5 = new User("Ivan", "123876", "zaqxsw@abv.bg", "someIban5", "Landlord"));
+        initiateDefaultUsers(user1,user2,user3,user4,user5,users);
+    }
 
+    static void initiateDefaultUsers(User user1, User user2, User user3, User user4, User user5, List<User> users){
+        user1.setId(1);
+        user1.setName("Denis");
+        user1.setEmail("asdfg@abv.bg");
+        user1.setPassword("123456");
+        user1.setUser_type("Landlord");
+        user2.setId(2);
+        user2.setName("Jivko");
+        user2.setEmail("qwerty@abv.bg");
+        user2.setPassword("123458");
+        user2.setUser_type("Tenant");
+        user3.setId(3);
+        user3.setName("Aleks");
+        user3.setEmail("gfdsa@abv.bg");
+        user3.setPassword("123468");
+        user3.setUser_type("Landlord");
+        user4.setId(4);
+        user4.setName("Georgi");
+        user4.setEmail("ytrewq@abv.bg");
+        user4.setPassword("123686");
+        user4.setUser_type("Tenant");
+        user5.setId(5);
+        user5.setName("Ivan");
+        user5.setEmail("zaqxsw@abv.bg");
+        user5.setPassword("123876");
+        user5.setUser_type("Landlord");
+        users.add(user1);
+        users.add(user2);
+        users.add(user3);
+        users.add(user4);
+        users.add(user5);
     }
 
     List<Estates> estates = new ArrayList<>();
-    Estates estates1;
-    Estates estates2;
-    Estates estates3;
-
+    Estates estates1=new Estates();
+    Estates estates2=new Estates();
+    Estates estates3=new Estates();
     {
-        estates.add(estates1 = new Estates(500, "Denis' flat", "someAddres"));
-        estates.add(estates2 = new Estates(750, "Aeks' flat", "someAddres2"));
-        estates.add(estates3 = new Estates(1000, "Ivan's flat", "someAddres3"));
+        try {
+            initiateDefaultEstates(estates1, estates2, estates3, estates);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
+
+
 
     @Test
     public void getUserById_ShouldReturn_UserWithTheSameID() throws NoUserFoundException {

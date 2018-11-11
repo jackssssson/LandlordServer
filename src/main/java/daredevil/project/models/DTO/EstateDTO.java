@@ -2,26 +2,24 @@ package daredevil.project.models.DTO;
 
 import daredevil.project.models.Estates;
 
-import java.util.Date;
-
 public class EstateDTO {
     private int estateid;
     private String estateName;
     private boolean occupied;
     private float price;
     private String address;
-    private String duedate;
+    private String dueDate;
 
     public EstateDTO() {
     }
 
-    public EstateDTO(int estateid, String estateName, boolean occupied, float price, String address, String duedate) {
+    public EstateDTO(int estateid, String estateName, boolean occupied, float price, String address, String dueDate) {
         this.estateid = estateid;
         this.estateName = estateName;
         this.occupied = occupied;
         this.price = price;
         this.address = address;
-        this.duedate = duedate;
+        this.dueDate = dueDate;
     }
 
     public int getEstateid() {
@@ -64,17 +62,17 @@ public class EstateDTO {
         this.address = address;
     }
 
-    public String getDuedate() {
-        return duedate;
+    public String getDueDate() {
+        return dueDate;
     }
 
-    public void setDuedate(String duedate) {
-        this.duedate = duedate;
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
 
     public static EstateDTO getFromEstate(Estates estates){
         String dueDate=estates.getDueDate().toString();
-        if(dueDate.equals("Mon Jan 11 00:11:00 EET 1999"))
+        if(dueDate.equals("Mon Jan 11 00:00:00 EET 1999"))
             dueDate="";
         return new EstateDTO(estates.getId(), estates.getEstateName(), estates.isOccupied(), estates.getPrice(),  estates.getAddresses(), dueDate);
     }

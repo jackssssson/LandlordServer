@@ -63,7 +63,7 @@ public class EstatesServiceImpl implements EstatesService {
     public void setOwed(int id, String owed) throws NoEstateFoundException {
         Estates estates=estatesRepository.getEstateById(id);
         float floatOwed=Float.valueOf(owed);
-        estates.setPrice(Float.valueOf(floatOwed));
+        estates.setPrice(floatOwed);
         estatesRepository.updatePrice(id, estates);
 
     }

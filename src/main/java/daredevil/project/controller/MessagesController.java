@@ -25,7 +25,7 @@ public class MessagesController {
     @GetMapping("/checkForNewMessages/{senderID}/{recipientID}")
     public String checkForNewMessages(@PathVariable int senderID,
                                       @PathVariable int recipientID){
-        if(messagesService.checkForNewMessagess(senderID, recipientID)){
+        if(messagesService.checkForNewMessages(senderID, recipientID)){
             return "true";
         }
         return "false";
@@ -34,13 +34,13 @@ public class MessagesController {
     @GetMapping("/getNewMessages/{senderID}/{recipientID}")
     public List<MessagesDTO> getNewMessages(@PathVariable int senderID,
                                             @PathVariable int recipientID){
-        return messagesService.getNewMessagess(senderID, recipientID);
+        return messagesService.getNewMessages(senderID, recipientID);
     }
 
     @GetMapping("/checkForMessages/{senderID}/{recipientID}")
     public String checkForMessages(@PathVariable int senderID,
                                    @PathVariable int recipientID){
-        if(messagesService.checkForMessagess(senderID, recipientID)){
+        if(messagesService.checkForMessages(senderID, recipientID)){
             return "true";
         }
         return "false";
@@ -49,7 +49,7 @@ public class MessagesController {
     @GetMapping("/getMessages/{senderID}/{recipientID}")
     public List<MessagesDTO> getMessages(@PathVariable int senderID,
                                          @PathVariable int recipientID){
-        return messagesService.getMessagess(senderID, recipientID);
+        return messagesService.getMessages(senderID, recipientID);
     }
 
     @PutMapping("/postTextMessage/{message}/{senderID}/{recipientID}")

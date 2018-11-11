@@ -1,6 +1,7 @@
 package daredevil.project.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import daredevil.project.models.DTO.EstateDTO;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
@@ -191,4 +192,5 @@ public class Estates {
     public void setMessages(Set<Messages> messages) {
         this.messages = messages;
     }
+
 }

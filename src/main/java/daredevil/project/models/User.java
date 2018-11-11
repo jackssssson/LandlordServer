@@ -102,6 +102,9 @@ public class User {
     }
 
     public User() {
+        this.iban="";
+        estates=new HashSet<>();
+        user_ratings=new HashSet<>();
     }
 
 
