@@ -87,7 +87,7 @@ public class EstatesServiceTests {
     public void test(){
 
     }
-//    void createEstate(EstateDTO estateDTO, String name) throws CantCreateEstateException, CantCreateUserException;
+
     @Test
     public void createEstate_ShouldCall_EstateRepository() throws CantCreateEstateException, CantCreateUserException {
         estates1.setTenant(user2);
@@ -101,7 +101,7 @@ public class EstatesServiceTests {
         verify(userRepository).updateUser(user1.getId(),user1 );
 
     }
-//    void setDueDate(String date, int estateID) throws ParseException, NoEstateFoundException;
+
     @Test
     public void setDueDate_ShouldCall_EstateRepository() throws NoEstateFoundException, ParseException {
         when(estatesRepository.getEstateById(estates1.getId())).thenReturn(estates1);
@@ -109,14 +109,14 @@ public class EstatesServiceTests {
         estates1.setDate("12-12-2018");
         verify(estatesRepository).updateEstate(estates1.getId(), estates1);
     }
-//    Estates getEstateById(int id) throws NoEstateFoundException;
+
     @Test
     public void getEstateById_ShouldReturn_EstateWithSameId() throws NoEstateFoundException {
         when(estatesRepository.getEstateById(estates3.getId())).thenReturn(estates3);
         Estates result=estatesService.getEstateById(estates3.getId());
         Assert.assertEquals(result, estates3);
     }
-//    void setOwed(int id, String owed) throws NoEstateFoundException;
+
     @Test
     public void setOwed_ShouldCall_EstatesRepository() throws NoEstateFoundException {
         when(estatesRepository.getEstateById(estates3.getId())).thenReturn(estates3);
@@ -125,7 +125,7 @@ public class EstatesServiceTests {
         estatesService.setOwed(estates3.getId(), "5.5");
         verify(estatesRepository).updatePrice(estates3.getId(), estates3);
     }
-//    List<Estates> getUnoccupiedEstates();
+
     @Test
     public void getUnoccupiedEstates_ShouldReturn_unocupiedEstates(){
         List<Estates> estates=this.estates.stream().filter(i->i.isOccupied()==false).collect(Collectors.toList());
