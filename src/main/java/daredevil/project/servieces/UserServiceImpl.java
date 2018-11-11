@@ -22,15 +22,12 @@ import java.util.regex.Pattern;
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private EstatesRepository estatesRepository;
-    private HttpRequester httpRequester;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
-                           EstatesRepository estatesRepository,
-                           HttpRequester httpRequester) {
+                           EstatesRepository estatesRepository) {
         this.userRepository = userRepository;
         this.estatesRepository = estatesRepository;
-        this.httpRequester = httpRequester;
     }
 
     @Override
@@ -98,7 +95,7 @@ public class UserServiceImpl implements UserService {
             int count = 0;
             Calendar c = Calendar.getInstance();
             Date now = new Date();
-            c.add(now.getDay(), 5);
+            c.add(Calendar.DATE, 5);
             Date checkDate = c.getTime();
             for (Estates e : estates) {
                 if (e.getDueDate().after(now) && e.getDueDate().before(checkDate))

@@ -95,21 +95,6 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
-    @Override
-    public List<User> getUsersByType(String type) {
-        List<User> result=new ArrayList<>();
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            result=session.createQuery("from User where user_type = :typeStr", User.class).setParameter("typeStr", type).list();
-            session.getTransaction().commit();
-            System.out.println("User deleted successfully.");
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-        return result;
-    }
 
     @Override
     public User getUserByName(String name) throws CantCreateUserException {

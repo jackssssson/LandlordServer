@@ -12,7 +12,6 @@ public interface UserRepository {
     User getUserById(int id) throws NoUserFoundException;
     void updateUser(int id, User user);
     void deleteUser(int id);
-    List<User> getUsersByType(String type);
     User getUserByName(String name) throws CantCreateUserException;
     User getUserByLoginModel(String name, String password) throws NoUserFoundException;
     String isUserFree(UserDTO userDTO);
